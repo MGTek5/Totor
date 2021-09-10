@@ -48,13 +48,14 @@ class MovieDiscovery extends StatefulWidget {
 
 class _MovieDiscoveryState extends State<MovieDiscovery> {
   List<Movie> _data = [];
-  PageController controller = PageController(viewportFraction: 0.8);
+  PageController controller = PageController(viewportFraction: 0.95);
   int currentPage = 0;
-  void getMovies() async {
-    List<Movie> data = await instance.getTrendingMovies();
-
+  int lastPage = 1;
+  void getMovies({int page = 1}) async {
+    List<Movie> data = await instance.getTrendingMovies(page: page);
     setState(() {
-      _data = data;
+      _data = _data + data;
+      lastPage = page;
     });
   }
 
@@ -72,20 +73,6 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
     });
   }
 
-  Widget _buildIntroPage() {
-    return Center(
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Trending Movies',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-            ),
-          ]),
-    );
-  }
-
   Widget _buildMoviePage(Movie m, bool active) {
     return MovieCard(m: m, active: active);
   }
@@ -98,15 +85,14 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
     return Scaffold(
         body: PageView.builder(
       controller: controller,
-      itemCount: _data.length + 1,
+      itemCount: _data.length,
       itemBuilder: (context, int currentIdx) {
-        if (currentIdx == 0) {
-          return _buildIntroPage();
-        } else {
-          // Active page
-          bool active = currentIdx == currentPage;
-          return _buildMoviePage(_data[currentIdx - 1], active);
+        // Active page
+        if (currentIdx == _data.length - 10) {
+          getMovies(page: lastPage + 1);
         }
+        bool active = currentIdx == currentPage;
+        return _buildMoviePage(_data[currentIdx], active);
       },
     ));
   }
