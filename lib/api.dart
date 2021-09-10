@@ -37,9 +37,10 @@ class TMDB {
   late Dio dio;
   String apiKey;
 
-  Future<List<Movie>> getTrendingMovies() async {
+  Future<List<Movie>> getTrendingMovies({int page = 1}) async {
     try {
-      Response response = await dio.get("/movie/popular");
+      Response response =
+          await dio.get("/movie/popular", queryParameters: {"page": page});
       if (response.statusCode == 200) {
         dynamic data = response.data;
         List<Movie> res = [];
