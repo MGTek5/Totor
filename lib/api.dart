@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 
 class Movie {
@@ -14,6 +13,10 @@ class Movie {
   String overview;
   String posterPath;
   String backdropPath;
+
+  String getPoster({String size = "w500"}) {
+    return "https://image.tmdb.org/t/p/$size/$posterPath";
+  }
 
   factory Movie.fromJson(Map<dynamic, dynamic> data) {
     return Movie(
