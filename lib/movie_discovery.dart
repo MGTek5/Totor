@@ -90,7 +90,8 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
     if (_data.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-    return PageView.builder(
+    return Scaffold(
+        body: PageView.builder(
       controller: controller,
       itemCount: _data.length + 1,
       itemBuilder: (context, int currentIdx) {
@@ -102,6 +103,6 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
           return _buildMoviePage(_data[currentIdx - 1], active);
         }
       },
-    );
+    ));
   }
 }
