@@ -1,4 +1,36 @@
-import 'package:tmdb_api/tmdb_api.dart';
+import 'package:http/http.dart' as http;
 
-TMDB api = TMDB(ApiKeys("2005b3a7fc676c3bd69383469a281eff",
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMDA1YjNhN2ZjNjc2YzNiZDY5MzgzNDY5YTI4MWVmZiIsInN1YiI6IjViZGM4YTAwOTI1MTQxMDI5YzAwMWZjYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WvFPBXwAxILcwrRV8ktlq382j2LYyF1GeOojzHU_3GU"));
+class Movie {
+  Movie(
+      {required this.id,
+      required this.title,
+      required this.posterPath,
+      required this.backdropPath});
+
+  int id;
+  String title;
+  String? overview;
+  String posterPath;
+  String backdropPath;
+
+  factory Movie.fromJson(Map<dynamic, dynamic> data) {
+    return Movie(
+        id: data["id"],
+        title: data["title"],
+        posterPath: data["poster_path"],
+        backdropPath: data["backdrop_path"]);
+  }
+}
+
+class TMDB {
+  TMDB({required this.apiKey}) {
+    base = Uri.parse("https://api.themoviedb.org/3");
+    base.replace(queryParameters: {"api_key":apiKey});
+  };
+  String apiKey;
+  late Uri base;
+
+  Future<List<Movie>> getTrendingMovies() async {
+    var response = await http.get();
+  }
+}
