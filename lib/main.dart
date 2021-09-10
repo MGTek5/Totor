@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:totor/movie_details.dart';
 
 import 'movie_discovery.dart';
 
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         initialRoute: "/",
-        routes: {"/": (context) => const MovieDiscovery()});
+        routes: {
+          "/": (context) => const MovieDiscovery(),
+          "/movie/details": (context) => const MovieDetails()
+        });
   }
 }
