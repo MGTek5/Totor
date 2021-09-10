@@ -1,15 +1,17 @@
-import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:dio/dio.dart';
 
 class Movie {
   Movie(
       {required this.id,
       required this.title,
+      required this.overview,
       required this.posterPath,
       required this.backdropPath});
 
   int id;
   String title;
-  String? overview;
+  String overview;
   String posterPath;
   String backdropPath;
 
@@ -17,6 +19,7 @@ class Movie {
     return Movie(
         id: data["id"],
         title: data["title"],
+        overview: data["overview"],
         posterPath: data["poster_path"],
         backdropPath: data["backdrop_path"]);
   }
@@ -24,13 +27,30 @@ class Movie {
 
 class TMDB {
   TMDB({required this.apiKey}) {
-    base = Uri.parse("https://api.themoviedb.org/3");
-    base.replace(queryParameters: {"api_key":apiKey});
-  };
+    dio = Dio();
+    dio.options.baseUrl = "https://api.themoviedb.org/3";
+    dio.options.queryParameters = {"api_key": apiKey};
+  }
+  late Dio dio;
   String apiKey;
-  late Uri base;
 
   Future<List<Movie>> getTrendingMovies() async {
-    var response = await http.get();
+    try {
+      Response response = await dio.get("/movie/popular");
+      if (response.statusCode == 200) {
+        dynamic data = response.data;
+        List<Movie> res = [];
+        for (var item in data["results"]) {
+          res.add(Movie.fromJson(item));
+        }
+        return res;
+      } else {
+        return Future.error("Status KO receiving movies");
+      }
+    } catch (e) {
+      return Future.error("Something went wrong");
+    }
   }
 }
+
+TMDB instance = TMDB(apiKey: "2005b3a7fc676c3bd69383469a281eff");
