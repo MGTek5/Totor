@@ -1,0 +1,4 @@
+import 'package:tmdb_api/tmdb_api.dart';
+
+TMDB api = TMDB(ApiKeys("2005b3a7fc676c3bd69383469a281eff",
+    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMDA1YjNhN2ZjNjc2YzNiZDY5MzgzNDY5YTI4MWVmZiIsInN1YiI6IjViZGM4YTAwOTI1MTQxMDI5YzAwMWZjYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WvFPBXwAxILcwrRV8ktlq382j2LYyF1GeOojzHU_3GU"));
