@@ -11,14 +11,15 @@ class Movie {
   int id;
   String title;
   String overview;
-  String posterPath;
-  String backdropPath;
+  String? posterPath;
+  String? backdropPath;
 
   String getPoster({String size = "w500"}) {
     return "https://image.tmdb.org/t/p/$size/$posterPath";
   }
 
   factory Movie.fromJson(Map<dynamic, dynamic> data) {
+    print("received $data");
     return Movie(
         id: data["id"],
         title: data["title"],
@@ -50,6 +51,26 @@ class TMDB {
         return res;
       } else {
         return Future.error("Status KO receiving movies");
+      }
+    } catch (e) {
+      return Future.error("Something went wrong");
+    }
+  }
+
+  Future<List<Movie>> searchMovie({required String query, int page = 1}) async {
+    List<Movie> res = [];
+    try {
+      Response response = await dio.get("/search/movie",
+          queryParameters: {"query": query, "page": page});
+
+      if (response.statusCode == 200) {
+        dynamic data = response.data;
+        for (var item in data["results"]) {
+          res.add(Movie.fromJson(item));
+        }
+        return res;
+      } else {
+        return Future.error("Status KO searching movies");
       }
     } catch (e) {
       return Future.error("Something went wrong");
