@@ -19,7 +19,6 @@ class Movie {
   }
 
   factory Movie.fromJson(Map<dynamic, dynamic> data) {
-    print("received $data");
     return Movie(
         id: data["id"],
         title: data["title"],
