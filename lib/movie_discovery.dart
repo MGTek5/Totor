@@ -11,8 +11,8 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double blur = active ? 30 : 0;
-    final double offset = active ? 20 : 0;
+    final double blur = active ? 15 : 0;
+    final double offset = active ? 7 : 0;
     final double top = active ? 100 : 200;
     return GestureDetector(
       onTap: () {
@@ -30,7 +30,7 @@ class MovieCard extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                  color: Colors.black87,
+                  color: const Color(0xffEEB868).withOpacity(0.3),
                   blurRadius: blur,
                   offset: Offset(offset, offset))
             ]),
