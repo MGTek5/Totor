@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:totor/nav_list.dart';
 import 'api.dart';
 
 class MovieCard extends StatelessWidget {
@@ -83,17 +84,23 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
       return const Center(child: CircularProgressIndicator());
     }
     return Scaffold(
+        bottomNavigationBar: SalomonBottomBar(
+          items: getNavList(),
+          onTap: (index) {
+            navigateTo(context: context, index: index);
+          },
+          currentIndex: 0,
+        ),
         body: PageView.builder(
-      controller: controller,
-      itemCount: _data.length,
-      itemBuilder: (context, int currentIdx) {
-        // Active page
-        if (currentIdx == _data.length - 10) {
-          getMovies(page: lastPage + 1);
-        }
-        bool active = currentIdx == currentPage;
-        return _buildMoviePage(_data[currentIdx], active);
-      },
-    ));
+          controller: controller,
+          itemCount: _data.length,
+          itemBuilder: (context, int currentIdx) {
+            if (currentIdx == _data.length - 10) {
+              getMovies(page: lastPage + 1);
+            }
+            bool active = currentIdx == currentPage;
+            return _buildMoviePage(_data[currentIdx], active);
+          },
+        ));
   }
 }
