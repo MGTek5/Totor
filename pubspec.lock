@@ -132,8 +132,12 @@ packages:
     version: "4.0.0"
 <<<<<<< master
 <<<<<<< master
+<<<<<<< master
 =======
 >>>>>>> [add] master pubspec.yaml
+=======
+<<<<<<< refs/remotes/origin/master
+>>>>>>> Add new component input
   image:
     dependency: transitive
     description:
@@ -142,10 +146,15 @@ packages:
     source: hosted
     version: "3.0.5"
 <<<<<<< master
+<<<<<<< master
 =======
 >>>>>>> Add new component input
 =======
 >>>>>>> [add] master pubspec.yaml
+=======
+=======
+>>>>>>> Add new component input
+>>>>>>> Add new component input
   lints:
     dependency: transitive
     description:
@@ -183,8 +192,12 @@ packages:
     version: "1.11.1"
 <<<<<<< master
 <<<<<<< master
+<<<<<<< master
 =======
 >>>>>>> [add] master pubspec.yaml
+=======
+<<<<<<< refs/remotes/origin/master
+>>>>>>> Add new component input
   petitparser:
     dependency: transitive
     description:
@@ -193,10 +206,15 @@ packages:
     source: hosted
     version: "4.3.0"
 <<<<<<< master
+<<<<<<< master
 =======
 >>>>>>> Add new component input
 =======
 >>>>>>> [add] master pubspec.yaml
+=======
+=======
+>>>>>>> Add new component input
+>>>>>>> Add new component input
   salomon_bottom_bar:
     dependency: "direct main"
     description:
