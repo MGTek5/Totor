@@ -10,18 +10,18 @@ class Input extends StatelessWidget {
     return Container(
       margin: const EdgeInsetsDirectional.all(12),
       alignment: Alignment.center,
-      child: TextField(
+      child: const TextField(
         obscureText: true,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          border: const OutlineInputBorder(
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(18.0),
             ),
             borderSide: BorderSide.none,
           ),
-          hintText: text,
+          hintText: 'Password',
           floatingLabelBehavior: FloatingLabelBehavior.never,
         ),
       ),
