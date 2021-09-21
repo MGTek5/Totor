@@ -130,6 +130,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+<<<<<<< refs/remotes/origin/master
   image:
     dependency: transitive
     description:
@@ -137,6 +138,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.5"
+=======
+>>>>>>> Add new component input
   lints:
     dependency: transitive
     description:
@@ -172,6 +175,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
+<<<<<<< refs/remotes/origin/master
   petitparser:
     dependency: transitive
     description:
@@ -179,6 +183,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.0"
+=======
+>>>>>>> Add new component input
   salomon_bottom_bar:
     dependency: "direct main"
     description:
