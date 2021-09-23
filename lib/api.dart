@@ -15,7 +15,10 @@ class Movie {
   String? backdropPath;
 
   String getPoster({String size = "w500"}) {
+    if (posterPath != null) {
     return "https://image.tmdb.org/t/p/$size/$posterPath";
+    }
+    return ("https://via.placeholder.com/500x700");
   }
 
   factory Movie.fromJson(Map<dynamic, dynamic> data) {
