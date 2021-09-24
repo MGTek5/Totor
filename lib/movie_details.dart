@@ -1,4 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:totor/arguments.dart';
+import 'package:totor/components/movie_image_carousel.dart';
+
+import 'api.dart';
 
 class MovieDetails extends StatefulWidget {
   const MovieDetails({Key? key}) : super(key: key);
@@ -8,10 +14,138 @@ class MovieDetails extends StatefulWidget {
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
+  Movie? m;
+  bool firstTime = true;
+
+  getDetails(int id) async {
+    try {
+      Movie tmp = await instance.getMovie(id: id);
+      setState(() {
+        m = tmp;
+        firstTime = false;
+      });
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Something went wrong"),
+                content: Text("$e"),
+              ));
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (firstTime) {
+      final MovieDetailsArguments args =
+          ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
+      getDetails(args.id);
+    }
+  }
+
+  List<Widget> generateGenrePills() {
+    List<Widget> tmp = [];
+
+    for (var genre in m!.genres) {
+      tmp.add(Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Selected Genre"),
+                      content: Text(genre.name),
+                    );
+                  });
+            },
+            child: Chip(label: Text(genre.name))),
+      ));
+    }
+
+    return tmp;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("movie details"),
-    );
+    if (m == null) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              CircularProgressIndicator(),
+              Text("Fetching Movie info, please wait...")
+            ],
+          ),
+        ),
+      );
+    }
+    return (Scaffold(
+      body: SafeArea(
+          child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(m!.getBackdrop(size: "original")),
+                fit: BoxFit.cover)),
+        child: Container(
+          decoration: const BoxDecoration(color: Color.fromARGB(100, 0, 0, 0)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0, top: 25),
+                    child: Text(
+                      m!.title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 30),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child:
+                        Text(m!.overview, style: const TextStyle(fontSize: 18)),
+                  ),
+                  Wrap(
+                    direction: Axis.horizontal,
+                    children: [
+                      ...generateGenrePills(),
+                    ],
+                  ),
+                  if (m!.posters.isNotEmpty)
+                    Column(
+                      children: [
+                        const Text(
+                          "Posters",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          height: 300,
+                          child: MovieImageCarousel(
+                              items: m!.posters
+                                  .map((e) => m!.getPoster(path: e.filePath))
+                                  .toList()),
+                        )
+                      ],
+                    )
+                ],
+              ),
+            ),
+          ),
+        ),
+      )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.star),
+      ),
+    ));
   }
 }
