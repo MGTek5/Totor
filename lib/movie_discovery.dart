@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:totor/arguments.dart';
 import 'package:totor/nav_list.dart';
 import 'api.dart';
 
@@ -17,7 +18,8 @@ class MovieCard extends StatelessWidget {
     final double top = active ? 100 : 200;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, "/movie/details", arguments: {"id": m.id});
+        Navigator.pushNamed(context, "/movie/details",
+            arguments: MovieDetailsArguments(m.id));
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
