@@ -1,5 +1,16 @@
 import 'package:dio/dio.dart';
 
+class Genre {
+  int id;
+  String name;
+
+  Genre({required this.id, required this.name});
+
+  factory Genre.fromJson(dynamic data) {
+    return Genre(id: data["id"], name: data["name"]);
+  }
+}
+
 class Movie {
   Movie(
       {required this.id,
@@ -13,21 +24,40 @@ class Movie {
   String overview;
   String? posterPath;
   String? backdropPath;
+  dynamic images;
+  dynamic videos;
+  dynamic reviews;
+  dynamic cast;
+  dynamic crew;
+  List<Genre> genres = [];
 
   String getPoster({String size = "w500"}) {
     if (posterPath != null) {
-    return "https://image.tmdb.org/t/p/$size/$posterPath";
+      return "https://image.tmdb.org/t/p/$size/$posterPath";
     }
     return ("https://via.placeholder.com/500x700");
   }
 
-  factory Movie.fromJson(Map<dynamic, dynamic> data) {
-    return Movie(
+  String getBackdrop({String size = "w500"}) {
+    if (backdropPath != null) {
+      return "https://image.tmdb.org/t/p/$size/$backdropPath";
+    }
+    return ("https://via.placeholder.com/500x700");
+  }
+
+  factory Movie.fromJson(Map<dynamic, dynamic> data, {bool details = false}) {
+    Movie m = Movie(
         id: data["id"],
         title: data["title"],
         overview: data["overview"],
         posterPath: data["poster_path"],
         backdropPath: data["backdrop_path"]);
+    if (details) {
+      for (var item in data["genres"]) {
+        m.genres.add(Genre.fromJson(item));
+      }
+    }
+    return m;
   }
 }
 
@@ -76,6 +106,21 @@ class TMDB {
       }
     } catch (e) {
       return Future.error("Something went wrong");
+    }
+  }
+
+  Future<Movie> getMovie({required int id}) async {
+    try {
+      Response response = await dio.get("/movie/$id", queryParameters: {
+        "append_to_response": "credits,images,reviews,recommendations,videos"
+      });
+      if (response.statusCode == 200) {
+        return Movie.fromJson(response.data, details: true);
+      } else {
+        return Future.error("Request for movie $id failed");
+      }
+    } catch (e) {
+      return Future.error("Something went wrong while retrieving movie: $e");
     }
   }
 }
