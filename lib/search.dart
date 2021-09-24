@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'api.dart';
+import 'nav_list.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -11,7 +13,6 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   void handleSearchChange() {
-
     if (searchController.text.isEmpty) {
       setState(() {
         searchResults = [];
@@ -19,9 +20,9 @@ class _SearchState extends State<Search> {
     }
     if (searchController.text.isNotEmpty &&
         searchController.text.length % 3 == 0) {
-          setState(() {
-            loading = true;
-          });
+      setState(() {
+        loading = true;
+      });
       instance.searchMovie(query: searchController.text).then((value) {
         List<ListTile> tmp = [];
 
@@ -64,36 +65,40 @@ class _SearchState extends State<Search> {
   }
 
   Widget buildSearchInput() {
-    return (TextField(controller: searchController, decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("Search"),
-                  icon: Icon(Icons.search)
-                ),));
+    return (TextField(
+      controller: searchController,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          label: Text("Search"),
+          icon: Icon(Icons.search)),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return (
-      Scaffold(
-        body: SafeArea(child: 
-          SingleChildScrollView(
-            primary: true,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                buildSearchInput(),
-                if (loading) ...[
-                  const CircularProgressIndicator()
-                ],
-                if (searchResults.isEmpty)
-                  const Text("Nothing to see here, start typing to see some results"),
-                ...searchResults
-              ],
-            ),
-          )
+    return (Scaffold(
+      bottomNavigationBar: SalomonBottomBar(
+        items: getNavList(),
+        onTap: (index) {
+          navigateTo(context: context, index: index);
+        },
+        currentIndex: getRouteIndex(context: context),
+      ),
+      body: SafeArea(
+          child: SingleChildScrollView(
+        primary: true,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildSearchInput(),
+            if (loading) ...[const CircularProgressIndicator()],
+            if (searchResults.isEmpty)
+              const Text(
+                  "Nothing to see here, start typing to see some results"),
+            ...searchResults
+          ],
         ),
-      )
-    );
+      )),
+    ));
   }
 }
