@@ -64,7 +64,7 @@ class _SearchState extends State<Search> {
       instance.searchMovie(query: searchController.text).then((value) {
         if (searchResults.isNotEmpty) {
           pageController.animateToPage(0,
-              curve: Curves.ease, duration: Duration(seconds: 1));
+              curve: Curves.ease, duration: const Duration(seconds: 1));
         }
         setState(() {
           searchResults = value;
