@@ -11,6 +11,21 @@ class Genre {
   }
 }
 
+class Image {
+  String filePath;
+  int height;
+  int width;
+
+  Image({required this.filePath, required this.height, required this.width});
+
+  factory Image.fromJson(dynamic data) {
+    return Image(
+        filePath: data["file_path"],
+        height: data["height"],
+        width: data["width"]);
+  }
+}
+
 class Movie {
   Movie(
       {required this.id,
@@ -24,14 +39,18 @@ class Movie {
   String overview;
   String? posterPath;
   String? backdropPath;
-  dynamic images;
   dynamic videos;
   dynamic reviews;
   dynamic cast;
   dynamic crew;
+  List<Image> posters = [];
   List<Genre> genres = [];
 
-  String getPoster({String size = "w500"}) {
+  String getPoster({String path = "", String size = "w500"}) {
+    if (path != "") {
+      return "https://image.tmdb.org/t/p/$size/$path";
+    }
+
     if (posterPath != null) {
       return "https://image.tmdb.org/t/p/$size/$posterPath";
     }
@@ -55,6 +74,11 @@ class Movie {
     if (details) {
       for (var item in data["genres"]) {
         m.genres.add(Genre.fromJson(item));
+      }
+      if (data["images"]["posters"].isNotEmpty) {
+        for (var item in data["images"]["posters"]) {
+          m.posters.add(Image.fromJson(item));
+        }
       }
     }
     return m;
@@ -112,7 +136,8 @@ class TMDB {
   Future<Movie> getMovie({required int id}) async {
     try {
       Response response = await dio.get("/movie/$id", queryParameters: {
-        "append_to_response": "credits,images,reviews,recommendations,videos"
+        "append_to_response": "credits,images,reviews,recommendations,videos",
+        "include_image_language": "en,null"
       });
       if (response.statusCode == 200) {
         return Movie.fromJson(response.data, details: true);
