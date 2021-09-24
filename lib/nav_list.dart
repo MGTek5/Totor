@@ -46,5 +46,7 @@ List<SalomonBottomBarItem> getNavList() {
 }
 
 navigateTo({required context, required int index}) {
-  Navigator.pushNamed(context, data[index].routeName);
+  if (data[index].routeName != ModalRoute.of(context)!.settings.name) {
+    Navigator.pushNamed(context, data[index].routeName);
+  }
 }
