@@ -112,13 +112,17 @@ class _SearchState extends State<Search> {
   }
 
   Widget buildSearchInput() {
-    return (TextField(
-      controller: searchController,
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          label: Text("Search"),
-          icon: Icon(Icons.search)),
-    ));
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
+      child: (TextField(
+        controller: searchController,
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            label: Text("Search"),
+            icon: Icon(Icons.search)),
+      )),
+    );
   }
 
   @override
