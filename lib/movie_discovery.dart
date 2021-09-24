@@ -89,7 +89,7 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
           onTap: (index) {
             navigateTo(context: context, index: index);
           },
-          currentIndex: 0,
+          currentIndex: getRouteIndex(context: context),
         ),
         body: PageView.builder(
           controller: controller,

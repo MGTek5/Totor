@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:totor/movie_details.dart';
+import 'package:totor/search.dart';
 
 import 'movie_discovery.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         initialRoute: "/",
         routes: {
           "/": (context) => const MovieDiscovery(),
+          "/search": (context) => const Search(),
           "/movie/details": (context) => const MovieDetails()
         });
   }

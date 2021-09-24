@@ -46,5 +46,19 @@ List<SalomonBottomBarItem> getNavList() {
 }
 
 navigateTo({required context, required int index}) {
-  Navigator.pushNamed(context, data[index].routeName);
+  if (data[index].routeName != ModalRoute.of(context)!.settings.name) {
+    Navigator.pushNamed(context, data[index].routeName);
+  }
+}
+
+int getRouteIndex({required context}) {
+  ModalRoute<Object?>? currentRoute = ModalRoute.of(context);
+
+  for (int i = 0; i < data.length; i++) {
+    if (data[i].routeName == currentRoute!.settings.name) {
+      return i;
+    }
+  }
+
+  throw "Could not find route";
 }
