@@ -9,3 +9,9 @@ class ImageFullArguments {
 
   ImageFullArguments(this.path);
 }
+
+class CastDetailArguments {
+  final int id;
+
+  CastDetailArguments(this.id);
+}

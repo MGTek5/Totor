@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:totor/arguments.dart';
+import 'package:totor/components/cast_image_carousel.dart';
 import 'package:totor/components/movie_image_carousel.dart';
+import 'package:totor/models/movie.dart';
 
 import 'api.dart';
 
@@ -16,6 +18,8 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   Movie? m;
   bool firstTime = true;
+  TextStyle sectionTitle =
+      const TextStyle(fontSize: 20, fontWeight: FontWeight.w700);
 
   getDetails(int id) async {
     try {
@@ -122,10 +126,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                   if (m!.posters.isNotEmpty)
                     Column(
                       children: [
-                        const Text(
+                        Text(
                           "Posters",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w700),
+                          style: sectionTitle,
                         ),
                         SizedBox(
                           height: 300,
@@ -133,6 +136,19 @@ class _MovieDetailsState extends State<MovieDetails> {
                               items: m!.posters
                                   .map((e) => m!.getPoster(path: e.filePath))
                                   .toList()),
+                        )
+                      ],
+                    ),
+                  if (m!.cast.isNotEmpty)
+                    Column(
+                      children: [
+                        Text(
+                          "Cast",
+                          style: sectionTitle,
+                        ),
+                        SizedBox(
+                          height: 300,
+                          child: CastImageCarousel(items: m!.cast),
                         )
                       ],
                     )
