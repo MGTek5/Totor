@@ -1,4 +1,4 @@
-package com.example.totor
+package com.matteogassend.totor
 
 import io.flutter.embedding.android.FlutterActivity
 
