@@ -1,6 +1,7 @@
 import 'package:totor/models/genre.dart';
 import 'package:totor/models/image.dart';
 import 'package:totor/models/person.dart';
+import 'package:totor/models/production_country.dart';
 
 class Movie {
   Movie(
@@ -22,6 +23,7 @@ class Movie {
   List<Cast> cast = [];
   List<Image> posters = [];
   List<Genre> genres = [];
+  List<ProductionCountry> productionCountries = [];
 
   String getPoster({String path = "", String size = "w500"}) {
     if (path != "") {
@@ -62,6 +64,11 @@ class Movie {
         for (var item in data["credits"]["cast"]) {
           m.cast
               .add(Person.fromJson(data: item, type: PersonType.cast) as Cast);
+        }
+      }
+      if (data["production_countries"].isNotEmpty) {
+        for (var item in data["production_countries"]) {
+          m.productionCountries.add(ProductionCountry.fromJson(item));
         }
       }
     }
