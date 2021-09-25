@@ -131,6 +131,9 @@ packages:
     source: hosted
     version: "4.0.0"
 <<<<<<< master
+<<<<<<< master
+=======
+>>>>>>> [add] master pubspec.yaml
   image:
     dependency: transitive
     description:
@@ -138,8 +141,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.5"
+<<<<<<< master
 =======
 >>>>>>> Add new component input
+=======
+>>>>>>> [add] master pubspec.yaml
   lints:
     dependency: transitive
     description:
@@ -176,6 +182,9 @@ packages:
     source: hosted
     version: "1.11.1"
 <<<<<<< master
+<<<<<<< master
+=======
+>>>>>>> [add] master pubspec.yaml
   petitparser:
     dependency: transitive
     description:
@@ -183,8 +192,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.0"
+<<<<<<< master
 =======
 >>>>>>> Add new component input
+=======
+>>>>>>> [add] master pubspec.yaml
   salomon_bottom_bar:
     dependency: "direct main"
     description:
