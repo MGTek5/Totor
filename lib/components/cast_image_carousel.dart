@@ -73,7 +73,7 @@ class CastImageCarousel extends StatefulWidget {
 }
 
 class _CastImageCarouselState extends State<CastImageCarousel> {
-  PageController controller = PageController(viewportFraction: 0.8);
+  PageController controller = PageController(viewportFraction: 0.5);
   int currentPage = 0;
 
   @override
