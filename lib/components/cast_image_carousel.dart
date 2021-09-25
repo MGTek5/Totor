@@ -46,9 +46,14 @@ class CastCard extends StatelessWidget {
             Text(
               cast.originalName,
               style: titleStile,
+              textAlign: TextAlign.center,
             ),
             const Text("as"),
-            Text(cast.character, style: titleStile)
+            Text(
+              cast.character,
+              style: titleStile,
+              textAlign: TextAlign.center,
+            )
           ],
         ),
       ),
