@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:totor/arguments.dart';
 import 'package:totor/components/cast_image_carousel.dart';
 import 'package:totor/components/movie_image_carousel.dart';
+import 'package:totor/components/production_company_carousel.dart';
 import 'package:totor/models/movie.dart';
 
 import 'api.dart';
@@ -169,23 +170,31 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ],
                     ),
                   if (m!.productionCountries.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Produced In",
-                            style: sectionTitle,
-                          ),
-                          Wrap(
-                            direction: Axis.horizontal,
-                            children: [...generateProductionCountries()],
-                            alignment: WrapAlignment.spaceEvenly,
-                            spacing: 12,
-                          ),
-                        ],
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          "Produced In",
+                          style: sectionTitle,
+                        ),
+                        Wrap(
+                          direction: Axis.horizontal,
+                          children: [...generateProductionCountries()],
+                          alignment: WrapAlignment.spaceEvenly,
+                          spacing: 12,
+                        ),
+                      ],
                     ),
+                  if (m!.productionCompanies.isNotEmpty)
+                    Column(
+                      children: [
+                        Text("Produced By", style: sectionTitle),
+                        SizedBox(
+                          height: 300,
+                          child: ProductionCompanyImageCarousel(
+                              items: m!.productionCompanies),
+                        )
+                      ],
+                    )
                 ],
               ),
             ),

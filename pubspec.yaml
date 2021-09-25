@@ -12,6 +12,7 @@ dependencies:
   http: ^0.13.3
   dio: ^4.0.0
   salomon_bottom_bar: ^3.1.0
+  flag: ^5.0.1
 
 dev_dependencies:
   flutter_test:

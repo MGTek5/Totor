@@ -15,3 +15,9 @@ class CastDetailArguments {
 
   CastDetailArguments(this.id);
 }
+
+class CompanyDetailArguments {
+  final int id;
+
+  CompanyDetailArguments(this.id);
+}
