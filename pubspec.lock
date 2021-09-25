@@ -175,16 +175,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
-<<<<<<< refs/remotes/origin/master
-  petitparser:
-    dependency: transitive
-    description:
-      name: petitparser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.3.0"
-=======
->>>>>>> Add new component input
   salomon_bottom_bar:
     dependency: "direct main"
     description:
