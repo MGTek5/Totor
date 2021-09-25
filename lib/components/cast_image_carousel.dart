@@ -39,22 +39,25 @@ class CastCard extends StatelessWidget {
                   blurRadius: blur,
                   offset: Offset(offset, offset))
             ]),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              cast.originalName,
-              style: titleStile,
-              textAlign: TextAlign.center,
-            ),
-            const Text("as"),
-            Text(
-              cast.character,
-              style: titleStile,
-              textAlign: TextAlign.center,
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                cast.originalName,
+                style: titleStile,
+                textAlign: TextAlign.center,
+              ),
+              const Text("as"),
+              Text(
+                cast.character,
+                style: titleStile,
+                textAlign: TextAlign.center,
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -123,6 +123,19 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ...generateGenrePills(),
                     ],
                   ),
+                  if (m!.cast.isNotEmpty)
+                    Column(
+                      children: [
+                        Text(
+                          "Cast",
+                          style: sectionTitle,
+                        ),
+                        SizedBox(
+                          height: 300,
+                          child: CastImageCarousel(items: m!.cast),
+                        )
+                      ],
+                    ),
                   if (m!.posters.isNotEmpty)
                     Column(
                       children: [
@@ -139,19 +152,6 @@ class _MovieDetailsState extends State<MovieDetails> {
                         )
                       ],
                     ),
-                  if (m!.cast.isNotEmpty)
-                    Column(
-                      children: [
-                        Text(
-                          "Cast",
-                          style: sectionTitle,
-                        ),
-                        SizedBox(
-                          height: 300,
-                          child: CastImageCarousel(items: m!.cast),
-                        )
-                      ],
-                    )
                 ],
               ),
             ),
