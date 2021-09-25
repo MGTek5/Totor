@@ -1,3 +1,4 @@
+import 'package:flag/flag_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -46,6 +47,13 @@ class _MovieDetailsState extends State<MovieDetails> {
           ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
       getDetails(args.id);
     }
+  }
+
+  List<Widget> generateProductionCountries() {
+    return m!.productionCountries
+        .map((e) =>
+            SizedBox(height: 100, width: 100, child: Flag.fromString(e.iso)))
+        .toList();
   }
 
   List<Widget> generateGenrePills() {
@@ -159,6 +167,24 @@ class _MovieDetailsState extends State<MovieDetails> {
                                   .toList()),
                         )
                       ],
+                    ),
+                  if (m!.productionCountries.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Produced In",
+                            style: sectionTitle,
+                          ),
+                          Wrap(
+                            direction: Axis.horizontal,
+                            children: [...generateProductionCountries()],
+                            alignment: WrapAlignment.spaceEvenly,
+                            spacing: 12,
+                          ),
+                        ],
+                      ),
                     ),
                 ],
               ),
