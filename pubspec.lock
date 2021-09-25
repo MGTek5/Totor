@@ -193,6 +193,7 @@ packages:
 <<<<<<< master
 <<<<<<< master
 <<<<<<< master
+<<<<<<< master
 =======
 >>>>>>> [add] master pubspec.yaml
 =======
@@ -215,6 +216,8 @@ packages:
 =======
 >>>>>>> Add new component input
 >>>>>>> Add new component input
+=======
+>>>>>>> [add] master pubspec.yaml
   salomon_bottom_bar:
     dependency: "direct main"
     description:
