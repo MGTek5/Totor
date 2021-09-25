@@ -105,13 +105,21 @@ class _MovieDetailsState extends State<MovieDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0, top: 25),
+                    padding: const EdgeInsets.only(bottom: 5.0, top: 25),
                     child: Text(
                       m!.title,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 30),
                     ),
                   ),
+                  if (m!.tagline != "")
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        m!.tagline,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child:

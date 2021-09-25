@@ -15,6 +15,7 @@ class Movie {
   String overview;
   String? posterPath;
   String? backdropPath;
+  String tagline = "";
   dynamic videos;
   dynamic reviews;
   dynamic crew;
@@ -48,6 +49,7 @@ class Movie {
         posterPath: data["poster_path"],
         backdropPath: data["backdrop_path"]);
     if (details) {
+      m.tagline = data["tagline"];
       for (var item in data["genres"]) {
         m.genres.add(Genre.fromJson(item));
       }
