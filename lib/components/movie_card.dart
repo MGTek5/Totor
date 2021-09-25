@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:totor/api.dart';
 import 'package:totor/arguments.dart';
+import 'package:totor/models/movie.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard({Key? key, required this.m, required this.active})
