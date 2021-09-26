@@ -3,6 +3,7 @@ import 'package:totor/models/image.dart';
 import 'package:totor/models/person.dart';
 import 'package:totor/models/production_company.dart';
 import 'package:totor/models/production_country.dart';
+import 'package:totor/models/video.dart';
 
 class Movie {
   Movie(
@@ -18,7 +19,7 @@ class Movie {
   String? posterPath;
   String? backdropPath;
   String tagline = "";
-  dynamic videos;
+  String? trailerUrl;
   dynamic reviews;
   dynamic crew;
   List<Cast> cast = [];
@@ -26,6 +27,7 @@ class Movie {
   List<Genre> genres = [];
   List<ProductionCountry> productionCountries = [];
   List<ProductionCompany> productionCompanies = [];
+  List<Video> videos = [];
 
   String getPoster({String path = "", String size = "w500"}) {
     if (path != "") {
@@ -76,6 +78,14 @@ class Movie {
       if (data["production_companies"].isNotEmpty) {
         for (var item in data["production_companies"]) {
           m.productionCompanies.add(ProductionCompany.fromJson(item));
+        }
+      }
+      if (data["videos"]["results"].isNotEmpty) {
+        for (var item in data["videos"]["results"]) {
+          if (item["site"] != "YouTube") {
+            continue;
+          }
+          m.videos.add(Video.fromJson(item));
         }
       }
     }

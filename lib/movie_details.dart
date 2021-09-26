@@ -5,8 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:totor/arguments.dart';
 import 'package:totor/components/cast_image_carousel.dart';
 import 'package:totor/components/movie_image_carousel.dart';
+import 'package:totor/components/movie_video_player.dart';
 import 'package:totor/components/production_company_carousel.dart';
 import 'package:totor/models/movie.dart';
+import 'package:totor/models/video.dart';
 
 import 'api.dart';
 
@@ -140,6 +142,18 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ...generateGenrePills(),
                     ],
                   ),
+                  if (m!.videos.isNotEmpty)
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text("Trailer", style: sectionTitle),
+                        ),
+                        MovieVideoPlayer(
+                            v: m!.videos.firstWhere((element) =>
+                                element.type == VideoType.trailer)),
+                      ],
+                    ),
                   if (m!.cast.isNotEmpty)
                     Column(
                       children: [
