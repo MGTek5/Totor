@@ -1,7 +1,7 @@
 name: totor
 description: Like AlloCiné but worst.
 publish_to: "none"
-version: 1.0.0+1
+version: 1.0.1
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
@@ -12,6 +12,8 @@ dependencies:
   http: ^0.13.3
   dio: ^4.0.0
   salomon_bottom_bar: ^3.1.0
+  flag: ^5.0.1
+  youtube_player_flutter: ^8.0.0
 
 dev_dependencies:
   flutter_test:

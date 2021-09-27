@@ -1,35 +1,5 @@
 import 'package:dio/dio.dart';
-
-class Movie {
-  Movie(
-      {required this.id,
-      required this.title,
-      required this.overview,
-      required this.posterPath,
-      required this.backdropPath});
-
-  int id;
-  String title;
-  String overview;
-  String? posterPath;
-  String? backdropPath;
-
-  String getPoster({String size = "w500"}) {
-    if (posterPath != null) {
-    return "https://image.tmdb.org/t/p/$size/$posterPath";
-    }
-    return ("https://via.placeholder.com/500x700");
-  }
-
-  factory Movie.fromJson(Map<dynamic, dynamic> data) {
-    return Movie(
-        id: data["id"],
-        title: data["title"],
-        overview: data["overview"],
-        posterPath: data["poster_path"],
-        backdropPath: data["backdrop_path"]);
-  }
-}
+import 'package:totor/models/movie.dart';
 
 class TMDB {
   TMDB({required this.apiKey}) {
@@ -76,6 +46,22 @@ class TMDB {
       }
     } catch (e) {
       return Future.error("Something went wrong");
+    }
+  }
+
+  Future<Movie> getMovie({required int id}) async {
+    try {
+      Response response = await dio.get("/movie/$id", queryParameters: {
+        "append_to_response": "credits,images,reviews,recommendations,videos",
+        "include_image_language": "en,null"
+      });
+      if (response.statusCode == 200) {
+        return Movie.fromJson(response.data, details: true);
+      } else {
+        return Future.error("Request for movie $id failed");
+      }
+    } catch (e) {
+      return Future.error("Something went wrong while retrieving movie: $e");
     }
   }
 }

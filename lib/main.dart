@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:totor/image_full.dart';
 import 'package:totor/movie_details.dart';
 import 'package:totor/search.dart';
 
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => const MovieDiscovery(),
           "/search": (context) => const Search(),
-          "/movie/details": (context) => const MovieDetails()
+          "/movie/details": (context) => const MovieDetails(),
+          "/imagefull": (context) => const ImageFull()
         });
   }
 }

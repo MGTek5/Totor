@@ -1,46 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:totor/components/movie_card.dart';
+import 'package:totor/models/movie.dart';
 
 import 'api.dart';
 import 'nav_list.dart';
-
-class MovieCard extends StatelessWidget {
-  const MovieCard({Key? key, required this.m, required this.active})
-      : super(key: key);
-
-  final Movie m;
-  final bool active;
-
-  @override
-  Widget build(BuildContext context) {
-    final double blur = active ? 15 : 0;
-    final double offset = active ? 7 : 0;
-    final double top = active ? 100 : 200;
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, "/movie/details", arguments: {"id": m.id});
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOutQuint,
-        margin: EdgeInsets.only(top: top, bottom: 50, right: 30),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(m.getPoster()),
-            ),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0xffEEB868).withOpacity(0.3),
-                  blurRadius: blur,
-                  offset: Offset(offset, offset))
-            ]),
-      ),
-    );
-  }
-}
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -110,13 +75,17 @@ class _SearchState extends State<Search> {
   }
 
   Widget buildSearchInput() {
-    return (TextField(
-      controller: searchController,
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          label: Text("Search"),
-          icon: Icon(Icons.search)),
-    ));
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
+      child: (TextField(
+        controller: searchController,
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            label: Text("Search"),
+            icon: Icon(Icons.search)),
+      )),
+    );
   }
 
   @override
