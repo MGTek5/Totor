@@ -2,12 +2,14 @@ import 'package:flag/flag_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:totor/arguments.dart';
 import 'package:totor/components/cast_image_carousel.dart';
 import 'package:totor/components/movie_image_carousel.dart';
 import 'package:totor/components/movie_video_player.dart';
 import 'package:totor/components/production_company_carousel.dart';
 import 'package:totor/models/movie.dart';
+import 'package:totor/models/user.dart';
 import 'package:totor/models/video.dart';
 
 import 'api.dart';
@@ -20,6 +22,7 @@ class MovieDetails extends StatefulWidget {
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
+  late User user;
   Movie? m;
   bool firstTime = true;
   TextStyle sectionTitle =
@@ -39,16 +42,6 @@ class _MovieDetailsState extends State<MovieDetails> {
                 title: const Text("Something went wrong"),
                 content: Text("$e"),
               ));
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (firstTime) {
-      final MovieDetailsArguments args =
-          ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
-      getDetails(args.id);
     }
   }
 
@@ -84,7 +77,18 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (firstTime) {
+      final MovieDetailsArguments args =
+          ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
+      getDetails(args.id);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    user = context.watch<User>();
     if (m == null) {
       return Scaffold(
         body: Center(
@@ -215,10 +219,12 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
         ),
       )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.star),
-      ),
+      floatingActionButton: user.getLogged()
+          ? FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(Icons.star),
+            )
+          : null,
     ));
   }
 }

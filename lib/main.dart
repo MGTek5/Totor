@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:totor/image_full.dart';
+import 'package:totor/models/user.dart';
 import 'package:totor/movie_details.dart';
-import 'package:totor/providers/user_provider.dart';
 import 'package:totor/search.dart';
-
 import 'movie_discovery.dart';
 
 void main() {
@@ -18,8 +17,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<UserProvider>(
-          create: (_) => UserProvider(),
+        ChangeNotifierProvider<User>(
+          create: (_) => User(),
         )
       ],
       child: MaterialApp(
