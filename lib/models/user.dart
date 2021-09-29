@@ -4,10 +4,13 @@ class User extends ChangeNotifier {
   bool _logged = false;
   String? _email;
   String? _profilePic;
+  String? _token;
 
-  bool getLogged() => _logged;
-  String? getEmail() => _email;
-  String? getProfilePic() => _profilePic;
+  bool get logged => _logged;
+  String? get email => _email;
+  String? get profilePic => _profilePic;
+  String? get token => _token;
+
   void setEmail(String email) {
     _email = email;
     notifyListeners();
@@ -21,6 +24,10 @@ class User extends ChangeNotifier {
   void setProfilePic(String profilePic) {
     _profilePic = profilePic;
     notifyListeners();
+  }
+
+  void setToken(String token) {
+    _token = token;
   }
 
   User();

@@ -219,7 +219,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
         ),
       )),
-      floatingActionButton: user.getLogged()
+      floatingActionButton: user.logged
           ? FloatingActionButton(
               onPressed: () {},
               child: const Icon(Icons.star),
