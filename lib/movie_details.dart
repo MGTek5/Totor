@@ -10,7 +10,7 @@ import 'package:totor/components/production_company_carousel.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/models/video.dart';
 
-import 'api.dart';
+import 'tmdb.dart';
 
 class MovieDetails extends StatefulWidget {
   const MovieDetails({Key? key}) : super(key: key);
