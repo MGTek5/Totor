@@ -17,6 +17,46 @@ class TotorApi {
       return Future.error("Something went wrong: $e");
     }
   }
+
+  Future<dynamic> register(
+      String email, String password, String username, String profilePic) async {
+    try {
+      Response res =
+          await dio.post("/auth/register", data: {email, password, profilePic});
+      if (res.statusCode != 200) {
+        throw "Wrong response status, got ${res.statusCode} but expected 200";
+      }
+      return res.data;
+    } catch (e) {
+      return Future.error("Something went wrong: $e");
+    }
+  }
+
+  Future<dynamic> createReview(
+      String movieId, String userId, double rating, String commentary) async {
+    try {
+      Response res = await dio
+          .post("/movies", data: {movieId, userId, rating, commentary});
+      if (res.statusCode != 200) {
+        throw "Wrong response status got ${res.statusCode} but expected 200";
+      }
+      return res.data;
+    } catch (e) {
+      return Future.error("Something went wrong: $e");
+    }
+  }
+
+  Future<dynamic> getReviews(String movieId) async {
+    try {
+      Response res = await dio.get("/movies/$movieId");
+      if (res.statusCode != 200) {
+        throw "Wrong response status got ${res.statusCode} but expected 200";
+      }
+      return res.data;
+    } catch (e) {
+      return Future.error("Something went wrong: $e");
+    }
+  }
 }
 
 TotorApi instance = TotorApi();
