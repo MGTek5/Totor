@@ -16,6 +16,7 @@ dependencies:
   youtube_player_flutter: ^8.0.0
   shared_preferences: ^2.0.8
   introduction_screen: ^2.1.0
+  get_storage: ^2.0.3
 
 dev_dependencies:
   flutter_test:

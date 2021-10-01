@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:totor/image_full.dart';
 import 'package:totor/movie_details.dart';
 import 'package:totor/search.dart';
-
 import 'intro_screens.dart';
 import 'movie_discovery.dart';
 
 void main() async {
-  final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
-  runApp(MyApp(sPreferences: sharedPreferences));
+  await GetStorage.init();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required this.sPreferences}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
-  final SharedPreferences sPreferences;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: "/",
         routes: {
-          "/": (context) => sPreferences.getBool("introSeen") ?? false
+          "/": (context) => GetStorage().read<bool>("introSeen") ?? false
               ? const MovieDiscovery()
               : const IntroScreens(),
           "/search": (context) => const Search(),
