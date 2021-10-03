@@ -18,7 +18,7 @@ class CastCard extends StatelessWidget {
         const TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, "/cast",
+        Navigator.pushNamed(context, "/cast/details",
             arguments: CastDetailArguments(cast.id));
       },
       child: AnimatedContainer(

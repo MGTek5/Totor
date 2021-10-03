@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:provider/provider.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:totor/pages/genres.dart';
@@ -11,6 +12,12 @@ import 'package:totor/pages/search.dart';
 import 'package:totor/pages/register.dart';
 import 'pages/intro_screens.dart';
 import 'pages/movie_discovery.dart';
+=======
+import 'package:totor/cast_details.dart';
+import 'package:totor/image_full.dart';
+import 'package:totor/movie_details.dart';
+import 'package:totor/search.dart';
+>>>>>>> [add] castdetails page and routes in main.dart
 
 void main() async {
   await GetStorage.init();
@@ -54,6 +61,7 @@ class MyApp extends StatelessWidget {
               "/search": (context) => const Search(),
               "/movie/details": (context) => const MovieDetails(),
               "/movie/genre": (context) => const GenresPage(),
+              "/cast/details": (context) => const CastDetails(),
               "/register": (context) => const RegisterPage(),
               "/login": (context) => const LoginPage(),
               "/imagefull": (context) => const ImageFull(),
