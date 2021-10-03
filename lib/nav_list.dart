@@ -32,7 +32,7 @@ List<RouteData> data = [
       routeName: "/profile")
 ];
 
-List<SalomonBottomBarItem> getNavList() {
+List<SalomonBottomBarItem> getNavListMobile() {
   List<SalomonBottomBarItem> res = [];
 
   for (var element in data) {
@@ -40,6 +40,23 @@ List<SalomonBottomBarItem> getNavList() {
         icon: element.icon,
         title: element.title,
         selectedColor: element.selectedColor));
+  }
+
+  return res;
+}
+
+List<Widget> getNavListDesktop({required context}) {
+  List<Widget> res = [];
+  for (var element in data) {
+    res.add(InkWell(
+      onTap: () {
+        navigateTo(context: context, index: getRouteIndex(context: context));
+      },
+      child: ListTile(
+        leading: element.icon,
+        title: element.title,
+      ),
+    ));
   }
 
   return res;

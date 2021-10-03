@@ -92,7 +92,7 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return (Scaffold(
       bottomNavigationBar: SalomonBottomBar(
-        items: getNavList(),
+        items: getNavListMobile(),
         onTap: (index) {
           navigateTo(context: context, index: index);
         },
