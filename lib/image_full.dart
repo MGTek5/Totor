@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:totor/arguments.dart';
 
@@ -9,6 +11,9 @@ class ImageFull extends StatelessWidget {
     ImageFullArguments args =
         ModalRoute.of(context)!.settings.arguments as ImageFullArguments;
     return Scaffold(
+      appBar: Platform.isLinux || Platform.isWindows || Platform.isMacOS
+          ? AppBar()
+          : null,
       body: SafeArea(
         child: SizedBox(
           height: double.infinity,

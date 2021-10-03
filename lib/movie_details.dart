@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +101,11 @@ class _MovieDetailsState extends State<MovieDetails> {
       );
     }
     return (Scaffold(
+      appBar: Platform.isLinux || Platform.isWindows || Platform.isMacOS
+          ? AppBar(
+              title: Text(m!.title),
+            )
+          : null,
       body: SafeArea(
           child: Container(
         height: double.infinity,
