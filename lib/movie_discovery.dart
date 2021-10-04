@@ -176,7 +176,11 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
               child: ListView(
                 children: [
                   const DrawerHeader(child: Text("Totor")),
-                  ...getNavListDesktop(context: context)
+                  ...getNavListDesktop(
+                      context: context,
+                      onTap: (int idx) {
+                        navigateTo(context: context, index: idx);
+                      })
                 ],
               ),
             )

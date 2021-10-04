@@ -45,17 +45,17 @@ List<SalomonBottomBarItem> getNavListMobile() {
   return res;
 }
 
-List<Widget> getNavListDesktop({required context}) {
+List<Widget> getNavListDesktop(
+    {required context, required Function(int idx) onTap}) {
   List<Widget> res = [];
   for (var element in data) {
-    res.add(InkWell(
+    res.add(ListTile(
+      leading: element.icon,
+      title: element.title,
+      selected: getRouteIndex(context: context) == res.length,
       onTap: () {
-        navigateTo(context: context, index: getRouteIndex(context: context));
+        onTap(data.indexOf(element));
       },
-      child: ListTile(
-        leading: element.icon,
-        title: element.title,
-      ),
     ));
   }
 
