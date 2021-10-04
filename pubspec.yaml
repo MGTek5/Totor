@@ -37,11 +37,3 @@ flutter_native_splash:
   android_gravity: "fill"
   ios: true
   android: true
-
-msix_config:
-  display_name: Totor
-  publisher_display_name: Matfire
-  identity_name: com.matteogassend.totor
-  msix_version: 1.0.0.0
-  capabilities: "internetClient,webcam"
-  store: true
