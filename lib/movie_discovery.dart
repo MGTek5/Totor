@@ -59,6 +59,55 @@ class _MovieDiscoveryMobileState extends State<MovieDiscoveryMobile> {
   }
 }
 
+class MovieCardDesktop extends StatefulWidget {
+  const MovieCardDesktop({Key? key, required this.movie}) : super(key: key);
+
+  final Movie movie;
+
+  @override
+  State<MovieCardDesktop> createState() => _MovieCardDesktopState();
+}
+
+class _MovieCardDesktopState extends State<MovieCardDesktop> {
+  bool hovering = false;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, "/movie/details",
+            arguments: MovieDetailsArguments(widget.movie.id));
+      },
+      onHover: (h) {
+        setState(() {
+          hovering = h;
+        });
+      },
+      child: Transform.scale(
+        scale: hovering ? 1.05 : 1,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+                image: NetworkImage(widget.movie.getPoster()),
+                fit: BoxFit.cover),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.black54, borderRadius: BorderRadius.circular(20)),
+            child: Center(
+              child: Text(
+                widget.movie.title,
+                style: const TextStyle(fontSize: 24),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class MovieDiscoveryDesktop extends StatefulWidget {
   const MovieDiscoveryDesktop(
       {Key? key, required this.movies, required this.updateMovies})
@@ -79,34 +128,8 @@ class _MovieDiscoveryDesktopState extends State<MovieDiscoveryDesktop> {
         child: GridView(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4, mainAxisSpacing: 20, crossAxisSpacing: 20),
-          children: widget.movies
-              .map((e) => GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/movie/details",
-                          arguments: MovieDetailsArguments(e.id));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                            image: NetworkImage(e.getPoster()),
-                            fit: BoxFit.cover),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Center(
-                          child: Text(
-                            e.title,
-                            style: const TextStyle(fontSize: 24),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ))
-              .toList(),
+          children:
+              widget.movies.map((e) => MovieCardDesktop(movie: e)).toList(),
         ),
       ),
     );
