@@ -43,6 +43,8 @@ msix_config:
   publisher_display_name: Matfire
   identity_name: 26404Matfire.Totor
   msix_version: 1.0.0.0
-  capabilities: "internetClient,webcam"
   store: true
   publisher: CN=B8E12799-6464-4D30-8AFE-24E10413AF56
+  logo_path: assets/icon.png
+  start_menu_icon_path: assets/icon.png
+  tile_icon_path: assets/icon.png
