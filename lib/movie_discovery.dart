@@ -3,7 +3,7 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:totor/components/movie_card.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/nav_list.dart';
-import 'api.dart';
+import 'tmdb.dart';
 
 class MovieDiscovery extends StatefulWidget {
   const MovieDiscovery({Key? key}) : super(key: key);

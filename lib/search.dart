@@ -4,7 +4,7 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:totor/components/movie_card.dart';
 import 'package:totor/models/movie.dart';
 
-import 'api.dart';
+import 'tmdb.dart';
 import 'nav_list.dart';
 
 class Search extends StatefulWidget {
