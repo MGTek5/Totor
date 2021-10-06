@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:totor/button.dart';
+import 'package:totor/components/button.dart';
 
 class IntroScreens extends StatelessWidget {
   const IntroScreens({Key? key}) : super(key: key);
