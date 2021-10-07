@@ -46,13 +46,13 @@ class CastCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                cast.originalName,
+                cast.name,
                 style: titleStile,
                 textAlign: TextAlign.center,
               ),
               const Text("as"),
               Text(
-                cast.character,
+                cast.character ?? "Anon",
                 style: titleStile,
                 textAlign: TextAlign.center,
               )
