@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:totor/arguments.dart';
+import 'package:totor/components/cast_movie_carousel.dart';
 import 'package:totor/models/person.dart';
 import 'package:totor/tmdb.dart';
 
@@ -75,7 +76,22 @@ class _CastDetailsState extends State<CastDetails> {
                   ),
                   theme: const ExpandableThemeData(iconColor: Colors.white),
                 ),
-              )
+              ),
+              if (person.movieCredits.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Seen in",
+                        style: sectionTitle,
+                      ),
+                      SizedBox(
+                          height: 500,
+                          child: CastMovieCarousel(movies: person.movieCredits))
+                    ],
+                  ),
+                )
             ],
           ),
         ),
