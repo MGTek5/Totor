@@ -9,7 +9,6 @@ class Person {
   String department;
   String? profilePath;
   String? biography;
-  String? placeOfBirth;
   List<Movie> movieCredits = [];
 
   String getProfilePic({String size = "w500"}) {
@@ -38,7 +37,6 @@ class Person {
 
     if (details) {
       c.biography = data["biography"];
-      c.placeOfBirth = data["place_of_birth"];
       for (var m in data["movie_credits"]["cast"]) {
         c.movieCredits.add(Movie.fromJson(m));
       }
