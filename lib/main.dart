@@ -5,6 +5,7 @@ import 'package:totor/image_full.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/movie_details.dart';
 import 'package:totor/search.dart';
+import 'package:totor/register.dart';
 import 'intro_screens.dart';
 import 'movie_discovery.dart';
 
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
                   : const IntroScreens(),
               "/search": (context) => const Search(),
               "/movie/details": (context) => const MovieDetails(),
-              "/imagefull": (context) => const ImageFull()
+              "/imagefull": (context) => const ImageFull(),
+              "/register": (context) => const RegisterPage(),
             }));
   }
 }
