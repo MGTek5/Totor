@@ -28,9 +28,9 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    String email;
-    String password;
-    String name;
+    //String email;
+    //String password;
+    //String name;
     return Form(
       key: _formKey,
       child: Column(
@@ -40,20 +40,22 @@ class _RegisterFormState extends State<RegisterForm> {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            height: 54,
+            //height: 54,
             child: const TextField(
               obscureText: true,
+              autofocus: false,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
+                hintText: "Username",
+                hintStyle: TextStyle(color: Colors.grey),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(18.0),
                   ),
                   borderSide: BorderSide.none,
                 ),
-                labelText: "Username",
-                floatingLabelBehavior: FloatingLabelBehavior.never,
               ),
             ),
           ),
@@ -61,20 +63,22 @@ class _RegisterFormState extends State<RegisterForm> {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            height: 54,
+            //height: 54,
             child: const TextField(
               obscureText: true,
+              autofocus: false,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
+                hintText: "Email",
+                hintStyle: TextStyle(color: Colors.grey),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(18.0),
                   ),
                   borderSide: BorderSide.none,
                 ),
-                hintText: "Password",
-                floatingLabelBehavior: FloatingLabelBehavior.never,
               ),
             ),
           ),
@@ -82,50 +86,49 @@ class _RegisterFormState extends State<RegisterForm> {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            height: 54,
+            //height: 54,
             child: const TextField(
               obscureText: true,
+              autofocus: false,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
+                hintText: "Password",
+                hintStyle: TextStyle(color: Colors.grey),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(18.0),
                   ),
                   borderSide: BorderSide.none,
                 ),
-                hintText: "Password",
-                floatingLabelBehavior: FloatingLabelBehavior.never,
               ),
             ),
           ),
           Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+            margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            height: 54,
+            //height: 54,
             child: const TextField(
               obscureText: true,
+              autofocus: false,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(18.0),
-                  ),
-                  borderSide: BorderSide.none,
-                ),
                 hintText: "Repeat Password",
+                hintStyle: TextStyle(color: Colors.grey),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(18.0),
+                  ),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
           ),
-          Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(horizontal: 20.0),
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              height: 54,
-              child: Button("Submit", () {})),
+          Button("Submit", () {})
         ],
       ),
     );
