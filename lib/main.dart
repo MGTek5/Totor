@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:totor/image_full.dart';
+import 'package:totor/login.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/movie_details.dart';
 import 'package:totor/search.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
               "/movie/details": (context) => const MovieDetails(),
               "/imagefull": (context) => const ImageFull(),
               "/register": (context) => const RegisterPage(),
+              "/login": (context) => const LoginPage(),
             }));
   }
 }
