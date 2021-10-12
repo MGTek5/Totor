@@ -34,7 +34,7 @@ List<RouteData> data = [
       icon: const Icon(Icons.login),
       title: const Text("Login"),
       selectedColor: Colors.red,
-      routeName: "/register"),
+      routeName: "/login"),
 ];
 
 List<SalomonBottomBarItem> getNavList() {
