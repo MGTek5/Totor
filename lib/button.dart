@@ -12,7 +12,7 @@ class Button extends StatelessWidget {
       margin: const EdgeInsetsDirectional.all(12),
       child: RawMaterialButton(
         fillColor: const Color(0xffEEB868),
-        onPressed: () => onPressed,
+        onPressed: () => onPressed(),
         child: Text(text, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black, fontSize: 20)),
         shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(500)),
         elevation: 1,
