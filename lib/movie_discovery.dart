@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:totor/components/carousel.dart';
 import 'package:totor/components/movie_card.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/nav_list.dart';
@@ -14,8 +15,6 @@ class MovieDiscovery extends StatefulWidget {
 
 class _MovieDiscoveryState extends State<MovieDiscovery> {
   List<Movie> _data = [];
-  PageController controller = PageController(viewportFraction: 0.95);
-  int currentPage = 0;
   int lastPage = 1;
   void getMovies({int page = 1}) async {
     List<Movie> data = await instance.getTrendingMovies(page: page);
@@ -29,14 +28,6 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
   initState() {
     super.initState();
     getMovies();
-    controller.addListener(() {
-      int next = controller.page!.round();
-      if (currentPage != next) {
-        setState(() {
-          currentPage = next;
-        });
-      }
-    });
   }
 
   Widget _buildMoviePage(Movie m, bool active) {
@@ -56,16 +47,13 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
           },
           currentIndex: getRouteIndex(context: context),
         ),
-        body: PageView.builder(
-          controller: controller,
-          itemCount: _data.length,
-          itemBuilder: (context, int currentIdx) {
-            if (currentIdx == _data.length - 10) {
-              getMovies(page: lastPage + 1);
-            }
-            bool active = currentIdx == currentPage;
-            return _buildMoviePage(_data[currentIdx], active);
-          },
-        ));
+        body: Carousel(
+            vFraction: 0.90,
+            buildItem: (BuildContext ctx, int idx, bool active) {
+              if (idx == _data.length - 10) {
+                getMovies(page: lastPage + 1);
+              }
+              return _buildMoviePage(_data[idx], active);
+            }));
   }
 }
