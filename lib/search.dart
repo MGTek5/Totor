@@ -19,7 +19,7 @@ class _SearchState extends State<Search> {
   void handleSearchChange() {
     if (searchController.text.isEmpty) {
       setState(() {
-        searchResults = [];
+        _searchResults = [];
       });
     }
     if (searchController.text.isNotEmpty &&
@@ -29,7 +29,7 @@ class _SearchState extends State<Search> {
       });
       instance.searchMovie(query: searchController.text).then((value) {
         setState(() {
-          searchResults = value;
+          _searchResults = value;
           loading = false;
         });
       }).catchError((error) {
@@ -40,7 +40,7 @@ class _SearchState extends State<Search> {
     }
   }
 
-  List<Movie> searchResults = [];
+  List<Movie> _searchResults = [];
   bool loading = false;
   TextEditingController searchController = TextEditingController();
   int lastPage = 1;
@@ -91,14 +91,15 @@ class _SearchState extends State<Search> {
         children: [
           buildSearchInput(),
           if (loading) ...[const CircularProgressIndicator()],
-          if (searchResults.isEmpty)
+          if (_searchResults.isEmpty)
             const Text("Nothing to see here, start typing to see some results"),
-          if (searchResults.isNotEmpty)
+          if (_searchResults.isNotEmpty)
             Expanded(
               child: Carousel(
+                itemCount: _searchResults.length,
                 vFraction: 0.85,
                 buildItem: (context, int currentIdx, bool active) {
-                  return _buildMoviePage(searchResults[currentIdx], active);
+                  return _buildMoviePage(_searchResults[currentIdx], active);
                 },
               ),
             )

@@ -49,6 +49,7 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
         ),
         body: Carousel(
             vFraction: 0.90,
+            itemCount: _data.length,
             buildItem: (BuildContext ctx, int idx, bool active) {
               if (idx == _data.length - 10) {
                 getMovies(page: lastPage + 1);

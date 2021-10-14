@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Carousel extends StatefulWidget {
-  const Carousel({Key? key, required this.buildItem, this.vFraction = 0.5})
+  const Carousel(
+      {Key? key,
+      required this.buildItem,
+      required this.itemCount,
+      this.vFraction = 0.5})
       : super(key: key);
 
   final Widget Function(BuildContext, int idx, bool active) buildItem;
   final double vFraction;
+  final int itemCount;
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -32,6 +37,7 @@ class _CarouselState extends State<Carousel> {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+      itemCount: widget.itemCount,
       itemBuilder: (BuildContext ctx, int idx) {
         bool active = idx == currentPage;
         return widget.buildItem(ctx, idx, active);

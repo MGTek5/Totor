@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:totor/arguments.dart';
-import 'package:totor/components/cast_image_carousel.dart';
+import 'package:totor/components/carousel.dart';
+import 'package:totor/components/cast_card.dart';
 import 'package:totor/components/movie_image_carousel.dart';
 import 'package:totor/components/movie_part.dart';
 import 'package:totor/components/movie_video_player.dart';
-import 'package:totor/components/production_company_carousel.dart';
+import 'package:totor/components/production_card.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/models/video.dart';
@@ -155,7 +156,11 @@ class _MovieDetailsState extends State<MovieDetails> {
                   MoviePart(children: [
                     SizedBox(
                       height: 300,
-                      child: CastImageCarousel(items: m!.cast),
+                      child: Carousel(
+                          itemCount: m!.cast.length,
+                          buildItem: (BuildContext ctx, int idx, bool active) {
+                            return CastCard(cast: m!.cast[idx], active: active);
+                          }),
                     )
                   ], title: "Cast"),
                 if (m!.posters.isNotEmpty)
@@ -164,10 +169,15 @@ class _MovieDetailsState extends State<MovieDetails> {
                     children: [
                       SizedBox(
                         height: 300,
-                        child: MovieImageCarousel(
-                            items: m!.posters
-                                .map((e) => m!.getPoster(path: e.filePath))
-                                .toList()),
+                        child: Carousel(
+                            itemCount: m!.posters.length,
+                            buildItem:
+                                (BuildContext ctx, int idx, bool active) {
+                              return ImageCard(
+                                  path: m!.getPoster(
+                                      path: m!.posters[idx].filePath),
+                                  active: active);
+                            }),
                       )
                     ],
                   ),
@@ -189,8 +199,15 @@ class _MovieDetailsState extends State<MovieDetails> {
                     children: [
                       SizedBox(
                         height: 300,
-                        child: ProductionCompanyImageCarousel(
-                            items: m!.productionCompanies),
+                        child: Carousel(
+                          vFraction: 0.85,
+                          itemCount: m!.productionCompanies.length,
+                          buildItem: (BuildContext ctx, int idx, bool active) {
+                            return ProductionCard(
+                                company: m!.productionCompanies[idx],
+                                active: active);
+                          },
+                        ),
                       )
                     ],
                   )
