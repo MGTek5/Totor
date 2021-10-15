@@ -13,6 +13,7 @@ import 'package:totor/components/production_card.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/models/video.dart';
+import 'package:totor/movie_rating.dart';
 
 import 'components/movie_details_backdrop.dart';
 import 'tmdb.dart';
@@ -216,10 +217,18 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
         ),
       )),
-      floatingActionButton: user.logged
+      floatingActionButton: !user.logged
           ? FloatingActionButton(
-              onPressed: () {},
-              child: const Icon(Icons.star),
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return MovieRating(m: m!);
+                  }
+                );
+              },
+              child: const Icon(Icons.star, color: Color(0xff303030)),
+              backgroundColor: const Color(0xffEEB868)
             )
           : null,
     ));
