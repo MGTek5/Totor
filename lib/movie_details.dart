@@ -16,7 +16,6 @@ import 'package:totor/models/movie.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/models/video.dart';
 import 'package:totor/totoapi.dart' as totor_api;
-
 import 'components/movie_details_backdrop.dart';
 import 'models/rate.dart';
 import 'tmdb.dart';
@@ -249,7 +248,7 @@ class _MovieDetailsState extends State<MovieDetails> {
             ),
           ),
         ),
-      ),
+      )),
       floatingActionButton: user.logged
           ? FloatingActionButton(
               onPressed: () {
@@ -264,6 +263,6 @@ class _MovieDetailsState extends State<MovieDetails> {
               backgroundColor: const Color(0xffEEB868)
             )
           : null,
-    ));
+    );
   }
 }
