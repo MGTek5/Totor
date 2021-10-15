@@ -8,7 +8,8 @@ class TotorApi {
   }
   Future<dynamic> login(String email, String password) async {
     try {
-      Response res = await dio.post("/auth/login", data: {email, password});
+      Response res = await dio
+          .post("/auth/login", data: {"email": email, "password": password});
       if (res.statusCode != 200) {
         throw "Wrong response status. Got ${res.statusCode} but expected 200";
       }
@@ -21,8 +22,11 @@ class TotorApi {
   Future<dynamic> register(
       String email, String password, String username, String profilePic) async {
     try {
-      Response res =
-          await dio.post("/auth/register", data: {email, password, profilePic});
+      Response res = await dio.post("/auth/register", data: {
+        "email": email,
+        "password": password,
+        "profilePic": profilePic
+      });
       if (res.statusCode != 200) {
         throw "Wrong response status, got ${res.statusCode} but expected 200";
       }
@@ -35,8 +39,12 @@ class TotorApi {
   Future<dynamic> createReview(
       String movieId, String userId, double rating, String commentary) async {
     try {
-      Response res = await dio
-          .post("/movies", data: {movieId, userId, rating, commentary});
+      Response res = await dio.post("/movies", data: {
+        "movieId": movieId,
+        "userId": userId,
+        "rating": rating,
+        "commentary": commentary
+      });
       if (res.statusCode != 200) {
         throw "Wrong response status got ${res.statusCode} but expected 200";
       }
