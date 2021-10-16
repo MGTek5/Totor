@@ -50,7 +50,7 @@ class TotorApi {
       }
       return res.data;
     } catch (e) {
-      return Future.error("Something went wrong: $e");
+      throw "Something went wrong: $e";
     }
   }
 

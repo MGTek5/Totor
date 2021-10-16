@@ -19,6 +19,7 @@ dependencies:
   get_storage: ^2.0.3
   image_picker: ^0.8.4+3
   flutter_rating_bar: ^4.0.0
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

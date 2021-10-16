@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:totor/totoapi.dart';
 
 import 'button.dart';
@@ -68,17 +69,24 @@ class _MovieRatingState extends State<MovieRating> {
                    });
                  },
               ),
-              RawMaterialButton(
-                child: const Text('Click here'),
-                onPressed: () {
+              Button('Submit', () {
+                bool hasError = false;
+                try {
                   instance.createReview(widget.m.id.toString(), "null", rate, comment);
+                  Navigator.pop(context);
+                } catch (err) {
+                  hasError = true;
                 }
-              ),
-              // Button('Submit', () {
-              //   print('aaaaaaaaaaa');
-              //   instance.createReview(widget.m.id.toString(), "null", rate, comment);
-              // })
-            ],
+                Fluttertoast.showToast(
+                  msg: hasError ? "Something went wrong :(" : "Review pusblished !",
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: hasError ? Colors.red : const Color(0xffEEB868),
+                  textColor: Colors.white,
+                  fontSize: 16.0
+                );
+              })
+            ]
           )
         )
       );

@@ -217,7 +217,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
         ),
       )),
-      floatingActionButton: !user.logged
+      floatingActionButton: user.logged
           ? FloatingActionButton(
               onPressed: () {
                 showModalBottomSheet<void>(
