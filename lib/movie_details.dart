@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:totor/arguments.dart';
-import 'package:totor/components/cast_image_carousel.dart';
+import 'package:totor/components/carousel.dart';
+import 'package:totor/components/cast_card.dart';
 import 'package:totor/components/movie_image_carousel.dart';
+import 'package:totor/components/movie_part.dart';
 import 'package:totor/components/movie_video_player.dart';
-import 'package:totor/components/production_company_carousel.dart';
+import 'package:totor/components/production_card.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/models/video.dart';
 
+import 'components/movie_details_backdrop.dart';
 import 'tmdb.dart';
 
 class MovieDetails extends StatefulWidget {
@@ -104,117 +107,111 @@ class _MovieDetailsState extends State<MovieDetails> {
     }
     return (Scaffold(
       body: SafeArea(
-          child: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(m!.getBackdrop(size: "original")),
-                fit: BoxFit.cover)),
-        child: Container(
-          decoration: const BoxDecoration(color: Color.fromARGB(100, 0, 0, 0)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+          child: MovieDetailsBackdrop(
+        backdrop: m!.getBackdrop(size: "original"),
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5.0, top: 25),
+                  child: Text(
+                    m!.title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                ),
+                if (m!.tagline != "")
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0, top: 25),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Text(
-                      m!.title,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 30),
+                      m!.tagline,
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  if (m!.tagline != "")
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        m!.tagline,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child:
-                        Text(m!.overview, style: const TextStyle(fontSize: 18)),
-                  ),
-                  Wrap(
-                    direction: Axis.horizontal,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child:
+                      Text(m!.overview, style: const TextStyle(fontSize: 18)),
+                ),
+                Wrap(
+                  direction: Axis.horizontal,
+                  children: [
+                    ...generateGenrePills(),
+                  ],
+                ),
+                if (m!.videos.isNotEmpty)
+                  MoviePart(
+                    bottomPadding: 10,
+                    title: "Trailer",
                     children: [
-                      ...generateGenrePills(),
+                      MovieVideoPlayer(
+                          v: m!.videos.firstWhere(
+                              (element) => element.type == VideoType.trailer)),
                     ],
                   ),
-                  if (m!.videos.isNotEmpty)
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text("Trailer", style: sectionTitle),
-                        ),
-                        MovieVideoPlayer(
-                            v: m!.videos.firstWhere((element) =>
-                                element.type == VideoType.trailer)),
-                      ],
-                    ),
-                  if (m!.cast.isNotEmpty)
-                    Column(
-                      children: [
-                        Text(
-                          "Cast",
-                          style: sectionTitle,
-                        ),
-                        SizedBox(
-                          height: 300,
-                          child: CastImageCarousel(items: m!.cast),
-                        )
-                      ],
-                    ),
-                  if (m!.posters.isNotEmpty)
-                    Column(
-                      children: [
-                        Text(
-                          "Posters",
-                          style: sectionTitle,
-                        ),
-                        SizedBox(
-                          height: 300,
-                          child: MovieImageCarousel(
-                              items: m!.posters
-                                  .map((e) => m!.getPoster(path: e.filePath))
-                                  .toList()),
-                        )
-                      ],
-                    ),
-                  if (m!.productionCountries.isNotEmpty)
-                    Column(
-                      children: [
-                        Text(
-                          "Produced In",
-                          style: sectionTitle,
-                        ),
-                        Wrap(
-                          direction: Axis.horizontal,
-                          children: [...generateProductionCountries()],
-                          alignment: WrapAlignment.spaceEvenly,
-                          spacing: 12,
-                        ),
-                      ],
-                    ),
-                  if (m!.productionCompanies.isNotEmpty)
-                    Column(
-                      children: [
-                        Text("Produced By", style: sectionTitle),
-                        SizedBox(
-                          height: 300,
-                          child: ProductionCompanyImageCarousel(
-                              items: m!.productionCompanies),
-                        )
-                      ],
+                if (m!.cast.isNotEmpty)
+                  MoviePart(children: [
+                    SizedBox(
+                      height: 300,
+                      child: Carousel(
+                          itemCount: m!.cast.length,
+                          buildItem: (BuildContext ctx, int idx, bool active) {
+                            return CastCard(cast: m!.cast[idx], active: active);
+                          }),
                     )
-                ],
-              ),
+                  ], title: "Cast"),
+                if (m!.posters.isNotEmpty)
+                  MoviePart(
+                    title: "Posters",
+                    children: [
+                      SizedBox(
+                        height: 300,
+                        child: Carousel(
+                            itemCount: m!.posters.length,
+                            buildItem:
+                                (BuildContext ctx, int idx, bool active) {
+                              return ImageCard(
+                                  path: m!.getPoster(
+                                      path: m!.posters[idx].filePath),
+                                  active: active);
+                            }),
+                      )
+                    ],
+                  ),
+                if (m!.productionCountries.isNotEmpty)
+                  MoviePart(
+                    title: "Produced In",
+                    children: [
+                      Wrap(
+                        direction: Axis.horizontal,
+                        children: [...generateProductionCountries()],
+                        alignment: WrapAlignment.spaceEvenly,
+                        spacing: 12,
+                      ),
+                    ],
+                  ),
+                if (m!.productionCompanies.isNotEmpty)
+                  MoviePart(
+                    title: "Produced By",
+                    children: [
+                      SizedBox(
+                        height: 300,
+                        child: Carousel(
+                          vFraction: 0.85,
+                          itemCount: m!.productionCompanies.length,
+                          buildItem: (BuildContext ctx, int idx, bool active) {
+                            return ProductionCard(
+                                company: m!.productionCompanies[idx],
+                                active: active);
+                          },
+                        ),
+                      )
+                    ],
+                  )
+              ],
             ),
           ),
         ),

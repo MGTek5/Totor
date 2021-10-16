@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:totor/components/carousel.dart';
 import 'package:totor/components/movie_card.dart';
 import 'package:totor/models/movie.dart';
 
@@ -18,7 +19,7 @@ class _SearchState extends State<Search> {
   void handleSearchChange() {
     if (searchController.text.isEmpty) {
       setState(() {
-        searchResults = [];
+        _searchResults = [];
       });
     }
     if (searchController.text.isNotEmpty &&
@@ -27,12 +28,8 @@ class _SearchState extends State<Search> {
         loading = true;
       });
       instance.searchMovie(query: searchController.text).then((value) {
-        if (searchResults.isNotEmpty) {
-          pageController.animateToPage(0,
-              curve: Curves.ease, duration: const Duration(seconds: 1));
-        }
         setState(() {
-          searchResults = value;
+          _searchResults = value;
           loading = false;
         });
       }).catchError((error) {
@@ -43,25 +40,15 @@ class _SearchState extends State<Search> {
     }
   }
 
-  List<Movie> searchResults = [];
+  List<Movie> _searchResults = [];
   bool loading = false;
   TextEditingController searchController = TextEditingController();
-  PageController pageController = PageController(viewportFraction: 0.95);
-  int currentPage = 0;
   int lastPage = 1;
 
   @override
   void initState() {
     super.initState();
     searchController.addListener(handleSearchChange);
-    pageController.addListener(() {
-      int next = pageController.page!.round();
-      if (currentPage != next) {
-        setState(() {
-          currentPage = next;
-        });
-      }
-    });
   }
 
   @override
@@ -104,16 +91,15 @@ class _SearchState extends State<Search> {
         children: [
           buildSearchInput(),
           if (loading) ...[const CircularProgressIndicator()],
-          if (searchResults.isEmpty)
+          if (_searchResults.isEmpty)
             const Text("Nothing to see here, start typing to see some results"),
-          if (searchResults.isNotEmpty)
+          if (_searchResults.isNotEmpty)
             Expanded(
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: searchResults.length,
-                itemBuilder: (context, int currentIdx) {
-                  bool active = currentIdx == currentPage;
-                  return _buildMoviePage(searchResults[currentIdx], active);
+              child: Carousel(
+                itemCount: _searchResults.length,
+                vFraction: 0.85,
+                buildItem: (context, int currentIdx, bool active) {
+                  return _buildMoviePage(_searchResults[currentIdx], active);
                 },
               ),
             )
