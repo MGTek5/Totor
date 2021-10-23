@@ -160,6 +160,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.4"
+<<<<<<< HEAD
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -167,6 +168,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+=======
+>>>>>>> 31aef6e ([refact] architecture)
   flutter_rating_bar:
     dependency: "direct main"
     description:

@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:totor/totoapi.dart';
 
 import 'button.dart';
-import 'models/movie.dart';
+import '../models/movie.dart';
 
 class MovieRating extends StatefulWidget {
   const MovieRating({ Key? key, required this.m }) : super(key: key);
