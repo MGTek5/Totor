@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:totor/components/button.dart';
 import 'package:totor/register.dart';
+import 'package:totor/totoapi.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -8,6 +9,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      resizeToAvoidBottomInset: false,
       body: LoginForm(),
     );
   }
@@ -25,9 +27,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    //String email;
-    //String password;
-    //String name;
+    final _password = TextEditingController();
+    final _email = TextEditingController();
     return Form(
       key: _formKey,
       child: Column(
@@ -47,49 +48,80 @@ class _LoginFormState extends State<LoginForm> {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            //height: 54,
-            child: const TextField(
-              obscureText: true,
-              autofocus: false,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: "Email",
-                hintStyle: TextStyle(color: Colors.grey),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(18.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextFormField(
+                    controller: _email,
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !value.contains("@") ||
+                          !value.contains(".")) {
+                        return 'Invalid email';
+                      }
+                      return null;
+                    },
+                    style: const TextStyle(color: Colors.grey),
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Email",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(18.0),
+                        ),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
                   ),
-                  borderSide: BorderSide.none,
                 ),
-              ),
+              ],
             ),
           ),
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            //height: 54,
-            child: const TextField(
-              obscureText: true,
-              autofocus: false,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: "Password",
-                hintStyle: TextStyle(color: Colors.grey),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(18.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    controller: _password,
+                    style: const TextStyle(color: Colors.grey),
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Password",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(18.0),
+                        ),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
                   ),
-                  borderSide: BorderSide.none,
                 ),
-              ),
+              ],
             ),
           ),
-          Button("Login", () {}),
+          Button("Login", () {
+            try {
+              instance.login(
+                _email.text,
+                _password.text,
+              );
+            } catch (e) {
+              return e;
+            }
+            Navigator.pop(context);
+          }),
           TextButton(
               style: TextButton.styleFrom(
                   primary: Colors.orange,

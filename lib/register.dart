@@ -8,6 +8,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      resizeToAvoidBottomInset: false,
       body: RegisterForm(),
     );
   }
@@ -43,6 +44,12 @@ class _RegisterFormState extends State<RegisterForm> {
                 Expanded(
                   child: TextFormField(
                     controller: _username,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Username can\'t be empty';
+                      }
+                      return null;
+                    },
                     style: const TextStyle(color: Colors.grey),
                     decoration: const InputDecoration(
                       filled: true,
@@ -71,6 +78,14 @@ class _RegisterFormState extends State<RegisterForm> {
                 Expanded(
                   child: TextFormField(
                     controller: _email,
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !value.contains("@") ||
+                          !value.contains(".")) {
+                        return 'Invalid email';
+                      }
+                      return null;
+                    },
                     style: const TextStyle(color: Colors.grey),
                     decoration: const InputDecoration(
                       filled: true,
@@ -98,6 +113,9 @@ class _RegisterFormState extends State<RegisterForm> {
               children: <Widget>[
                 Expanded(
                   child: TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
                     controller: _password,
                     style: const TextStyle(color: Colors.grey),
                     decoration: const InputDecoration(
@@ -126,6 +144,9 @@ class _RegisterFormState extends State<RegisterForm> {
               children: <Widget>[
                 Expanded(
                   child: TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
                     style: const TextStyle(color: Colors.grey),
                     decoration: const InputDecoration(
                       filled: true,
@@ -146,7 +167,17 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
           Button("Submit", () {
-            TotorApi.register(_username, _email, _password, _email);
+            try {
+              instance.register(
+                _email.text,
+                _password.text,
+                _username.text,
+                "toto",
+              );
+            } catch (e) {
+              return e;
+            }
+            Navigator.pop(context);
           })
         ],
       ),
