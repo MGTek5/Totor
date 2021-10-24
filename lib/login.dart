@@ -94,7 +94,13 @@ class _LoginFormState extends State<LoginForm> {
               style: TextButton.styleFrom(
                   primary: Colors.orange,
                   textStyle: const TextStyle(fontSize: 12)),
-              onPressed: () => {const RegisterPage()},
+              onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterPage()),
+                    )
+                  },
               child: const Text("Create an account")),
         ],
       ),
