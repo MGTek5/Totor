@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 import 'package:totor/components/button.dart';
+import 'package:totor/models/user.dart';
 import 'package:totor/totoapi.dart';
+import 'package:totor/models/user.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -166,18 +170,23 @@ class _RegisterFormState extends State<RegisterForm> {
               ],
             ),
           ),
-          Button("Submit", () {
-            try {
-              instance.register(
-                _email.text,
-                _password.text,
-                _username.text,
-                "toto",
-              );
-            } catch (e) {
-              return e;
+          Button("Submit", () async {
+            _formKey.currentState!.save();
+            if (_formKey.currentState!.validate()) {
+              try {
+                Response res = await instance.register(
+                  _email.text,
+                  _password.text,
+                  _username.text,
+                  "toto",
+                );
+                Provider.of<User>(context, listen: false).setEmail(_email.text);
+                print(res);
+                Navigator.pop(context);
+              } catch (e) {
+                print(e);
+              }
             }
-            Navigator.pop(context);
           })
         ],
       ),
