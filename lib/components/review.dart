@@ -4,8 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:totor/models/rate.dart';
 
 class Review extends StatelessWidget {
-  const Review({Key? key, required this.review})
-      : super(key: key);
+  const Review({Key? key, required this.review}) : super(key: key);
 
   final Rate review;
 
@@ -14,62 +13,58 @@ class Review extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
-        elevation: 500,
-        color: const Color(0xff303030),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+          elevation: 500,
+          color: const Color(0xff303030),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircleAvatar(
-                        backgroundImage: Image.network(
-                          "https://avatars.githubusercontent.com/u/40118153?v=4",
-                          height: 50.0,
-                          width: 50.0,
-                        ).image,
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: Image.network(
+                              "https://avatars.githubusercontent.com/u/40118153?v=4",
+                              height: 50.0,
+                              width: 50.0,
+                            ).image,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(review.user['username'],
+                                style: const TextStyle(fontSize: 17)),
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          review.user['username'],
-                          style: const TextStyle(fontSize: 17)
-                        ),
+                      Row(
+                        children: [
+                          RatingBarIndicator(
+                            rating: review.rate,
+                            itemCount: 7,
+                            itemSize: 25,
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                        RatingBarIndicator(
-                        rating: review.rate,
-                        itemCount: 7,
-                        itemSize: 25,
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                      ),
-                    ],
-                  ),
-                ]
+                    ]),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                review.comment,
-                style: const TextStyle(fontSize: 15),
-                textAlign: TextAlign.left,
-              ),
-            )
-          ],
-        )
-      ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  review.comment,
+                  style: const TextStyle(fontSize: 15),
+                  textAlign: TextAlign.left,
+                ),
+              )
+            ],
+          )),
     );
   }
 }
