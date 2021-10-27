@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:totor/components/button.dart';
-import 'package:totor/models/user.dart';
 import 'package:totor/totoapi.dart';
-import 'package:totor/models/user.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'package:flutter/rendering.dart';
+
+import 'models/user.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -26,10 +31,30 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  File? image;
   final _formKey = GlobalKey<FormState>();
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _email = TextEditingController();
+  dynamic _image;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) return;
+
+      final imageTemporary = File(image.path);
+      this.image = imageTemporary;
+      _image = image;
+    } on PlatformException catch (e) {
+      print("failed to pick image: $e");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,18 +195,21 @@ class _RegisterFormState extends State<RegisterForm> {
               ],
             ),
           ),
+          Button(
+            "Pick Picture",
+            () => pickImage(),
+          ),
           Button("Submit", () async {
             _formKey.currentState!.save();
             if (_formKey.currentState!.validate()) {
               try {
-                Response res = await instance.register(
+                await instance.register(
                   _email.text,
                   _password.text,
                   _username.text,
-                  "toto",
+                  _image.text,
                 );
                 Provider.of<User>(context, listen: false).setEmail(_email.text);
-                print(res);
                 Navigator.pop(context);
               } catch (e) {
                 print(e);
