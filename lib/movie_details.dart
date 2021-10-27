@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +13,14 @@ import 'package:totor/components/movie_part.dart';
 import 'package:totor/components/movie_video_player.dart';
 import 'package:totor/components/production_card.dart';
 import 'package:totor/components/movie_rating.dart';
+import 'package:totor/components/review.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/models/video.dart';
+import 'package:totor/totoapi.dart' as totor_api;
 
 import 'components/movie_details_backdrop.dart';
+import 'models/rate.dart';
 import 'tmdb.dart';
 
 class MovieDetails extends StatefulWidget {
@@ -27,6 +32,7 @@ class MovieDetails extends StatefulWidget {
 
 class _MovieDetailsState extends State<MovieDetails> {
   late User user;
+  List<Rate>? rates = [];
   Movie? m;
   bool firstTime = true;
   TextStyle sectionTitle =
@@ -46,6 +52,24 @@ class _MovieDetailsState extends State<MovieDetails> {
                 title: const Text("Something went wrong"),
                 content: Text("$e"),
               ));
+    }
+  }
+
+  getRates(int id) async {
+    try {
+      List<Rate> tmp = await totor_api.instance.getReviews(id.toString());
+      setState(() {
+        rates = tmp;
+      });
+    } catch (e) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text("Something went wrong while retrieving reviews"),
+            content: Text("$e"),
+          )
+        );
+      rates = [];
     }
   }
 
@@ -84,8 +108,8 @@ class _MovieDetailsState extends State<MovieDetails> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (firstTime) {
-      final MovieDetailsArguments args =
-          ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
+      final MovieDetailsArguments args = ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
+      getRates(args.id);
       getDetails(args.id);
     }
   }
@@ -205,18 +229,29 @@ class _MovieDetailsState extends State<MovieDetails> {
                           itemCount: m!.productionCompanies.length,
                           buildItem: (BuildContext ctx, int idx, bool active) {
                             return ProductionCard(
-                                company: m!.productionCompanies[idx],
-                                active: active);
+                              company: m!.productionCompanies[idx],
+                              active: active
+                            );
                           },
                         ),
-                      )
+                      ),
                     ],
-                  )
-              ],
+                  ),
+                  if (rates!.isNotEmpty)
+                    MoviePart(
+                      title: "Reviews",
+                      children: [
+                        ...rates!.map((e) =>
+                         Review(review: e)
+                        ).toList()
+                      ]
+                    ),
+                ],
+              ),
             ),
           ),
         ),
-      )),
+      ),
       floatingActionButton: user.logged
           ? FloatingActionButton(
               onPressed: () {

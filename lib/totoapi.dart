@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:totor/models/rate.dart';
 
 class TotorApi {
   Dio dio = Dio();
@@ -54,13 +55,17 @@ class TotorApi {
     }
   }
 
-  Future<dynamic> getReviews(String movieId) async {
+  Future<List<Rate>> getReviews(String movieId) async {
+    List<Rate> res = [];
     try {
-      Response res = await dio.get("/movies/$movieId");
-      if (res.statusCode != 200) {
-        throw "Wrong response status got ${res.statusCode} but expected 200";
+      Response response = await dio.get("/movies/$movieId");
+      if (response.statusCode != 200) {
+        throw "Wrong responseponse status got ${response.statusCode} but expected 200";
       }
-      return res.data;
+      for (var e in response.data) {
+        res.add(Rate.fromJson(e));
+      }
+      return res;
     } catch (e) {
       return Future.error("Something went wrong: $e");
     }
