@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:totor/models/user.dart';
 import 'package:totor/totoapi.dart';
 
 import 'button.dart';
 import '../models/movie.dart';
 
 class MovieRating extends StatefulWidget {
-  const MovieRating({Key? key, required this.m}) : super(key: key);
+  const MovieRating({Key? key, required this.m, required this.u})
+      : super(key: key);
 
   final Movie m;
+  final User u;
 
   @override
   State<MovieRating> createState() => _MovieRatingState();
@@ -73,8 +76,8 @@ class _MovieRatingState extends State<MovieRating> {
               Button('Submit', () {
                 bool hasError = false;
                 try {
-                  instance.createReview(widget.m.id.toString(),
-                      "aa6a4227-7321-41bd-9de9-a4919cf83dc0", rate, comment);
+                  instance.createReview(
+                      widget.m.id.toString(), widget.u.id!, rate, comment);
                   Navigator.pop(context);
                 } catch (err) {
                   hasError = true;

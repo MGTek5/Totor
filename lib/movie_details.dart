@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -258,7 +256,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                 showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context) {
-                    return MovieRating(m: m!);
+                    return MovieRating(m: m!, u: user!);
                   }
                 );
               },
