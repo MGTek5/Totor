@@ -234,6 +234,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 user.setEmail(res["email"]);
                 user.setId(res["id"]);
                 user.setProfilePic(res["profilePic"]);
+                user.setUsername(res['username']);
                 user.setLogged(true);
                 Navigator.pushNamed(context, "/");
               } catch (e) {

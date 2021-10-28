@@ -127,6 +127,7 @@ class _LoginFormState extends State<LoginForm> {
                 user.setEmail(res["email"]);
                 user.setId(res["id"]);
                 user.setProfilePic(res["profilePic"]);
+                user.setUsername(res['username']);
                 user.setLogged(true);
               } catch (e) {
                 return e;
