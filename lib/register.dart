@@ -32,7 +32,7 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  File? _image;
+  String _encodedImage = "";
   final _formKey = GlobalKey<FormState>();
   final _username = TextEditingController();
   final _password = TextEditingController();
@@ -46,20 +46,25 @@ class _RegisterFormState extends State<RegisterForm> {
         maxHeight: 200,
         maxWidth: 200,
       );
+      final bytes = File(image!.path).readAsBytesSync();
 
       setState(() {
-        if (image != null) {
-          _image = File(image.path);
-        } else {
-          print("No Image selected");
-        }
-        final bytes = File(image!.path).readAsBytesSync();
-        String base64Image = "data:image/png;base64," + base64Encode(bytes);
-
-        print("img_pan : $base64Image");
+        _encodedImage = base64Encode(bytes);
       });
     } on PlatformException catch (e) {
-      print("failed to pick image: $e");
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Could not get selected image"),
+                content: Text(e.toString()),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("ok"))
+                ],
+              ));
     }
   }
 
@@ -212,20 +217,18 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
           Button(
-            "Pick Picture",
+            "Choose picture",
             () => pickImage(),
           ),
           Button("Submit", () async {
             _formKey.currentState!.save();
             if (_formKey.currentState!.validate()) {
               try {
-                String encodedPicture =
-                    base64.encode(utf8.encode(_image.toString()));
                 dynamic res = await instance.register(
                   _email.text,
                   _password.text,
                   _username.text,
-                  encodedPicture,
+                  _encodedImage,
                 );
                 User user = Provider.of<User>(context, listen: false);
                 user.setEmail(res["email"]);
@@ -234,7 +237,19 @@ class _RegisterFormState extends State<RegisterForm> {
                 user.setLogged(true);
                 Navigator.pushNamed(context, "/");
               } catch (e) {
-                print(e);
+                showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                          title: const Text("Could not register"),
+                          content: Text(e.toString()),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("ok"))
+                          ],
+                        ));
               }
             }
           })
