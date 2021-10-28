@@ -256,7 +256,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                 showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context) {
-                    return MovieRating(m: m!, u: user!);
+                    return MovieRating(m: m!, u: user);
                   }
                 );
               },
