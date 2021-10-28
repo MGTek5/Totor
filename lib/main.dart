@@ -5,6 +5,7 @@ import 'package:totor/image_full.dart';
 import 'package:totor/login.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/movie_details.dart';
+import 'package:totor/profile.dart';
 import 'package:totor/search.dart';
 import 'package:totor/register.dart';
 import 'intro_screens.dart';
@@ -25,7 +26,21 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<User>(
-            create: (_) => User(),
+            create: (_) {
+              User u = User();
+              if (GetStorage().read<bool>("loggedIn") ?? false == true) {
+                dynamic data = GetStorage().read("user");
+                u.setEmail(data["email"]);
+                u.setId(data["id"]);
+                u.setLogged(true);
+                u.setProfilePic(data["profilePic"]);
+                u.setUsername(data["username"]);
+              } else {
+                GetStorage().write("loggedIn", false);
+                GetStorage().write("user", null);
+              }
+              return u;
+            },
           )
         ],
         child: MaterialApp(
@@ -40,9 +55,13 @@ class MyApp extends StatelessWidget {
                   : const IntroScreens(),
               "/search": (context) => const Search(),
               "/movie/details": (context) => const MovieDetails(),
-              "/imagefull": (context) => const ImageFull(),
               "/register": (context) => const RegisterPage(),
               "/login": (context) => const LoginPage(),
+              "/imagefull": (context) => const ImageFull(),
+              '/profile': (context) =>
+                  GetStorage().read<bool>("loggedIn") ?? false
+                      ? const Profile()
+                      : const LoginPage()
             }));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:totor/components/button.dart';
 import 'package:totor/register.dart';
 import 'package:totor/totoapi.dart';
@@ -12,6 +13,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<User>().signOut();
+
     return const Scaffold(
       resizeToAvoidBottomInset: false,
       body: LoginForm(),
@@ -47,7 +50,7 @@ class _LoginFormState extends State<LoginForm> {
             "Welcome Back",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),
-          const Text("Sign in with yout email and password"),
+          const Text("Sign in with your email and password"),
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
@@ -127,11 +130,21 @@ class _LoginFormState extends State<LoginForm> {
                 user.setEmail(res["email"]);
                 user.setId(res["id"]);
                 user.setProfilePic(res["profilePic"]);
+                user.setUsername(res['username']);
                 user.setLogged(true);
+                GetStorage().write("loggedIn", true);
+                GetStorage().write("user", user.toJson());
+                Navigator.pushNamed(context, '/');
               } catch (e) {
-                return e;
+                showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return AlertDialog(
+                        title: const Text("Could not sign in"),
+                        content: Text(e.toString()),
+                      );
+                    });
               }
-              Navigator.pop(context);
             }
           }),
           TextButton(
