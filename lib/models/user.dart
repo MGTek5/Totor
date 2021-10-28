@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class User extends ChangeNotifier {
   bool _logged = false;
   String? _email;
+  String? _username;
   String? _profilePic;
   String? _token;
   String? _id;
@@ -12,6 +13,7 @@ class User extends ChangeNotifier {
   String? get profilePic => _profilePic;
   String? get token => _token;
   String? get id => _id;
+  String? get username => _username;
 
   void setEmail(String email) {
     _email = email;
@@ -25,6 +27,11 @@ class User extends ChangeNotifier {
 
   void setProfilePic(String profilePic) {
     _profilePic = profilePic;
+    notifyListeners();
+  }
+
+  void setUsername(String username) {
+    _username = username;
     notifyListeners();
   }
 

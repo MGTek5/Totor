@@ -5,6 +5,7 @@ import 'package:totor/image_full.dart';
 import 'package:totor/login.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/movie_details.dart';
+import 'package:totor/profile.dart';
 import 'package:totor/search.dart';
 import 'package:totor/register.dart';
 import 'intro_screens.dart';
@@ -23,26 +24,29 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<User>(
-            create: (_) => User(),
-          )
-        ],
-        child: MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              brightness: Brightness.dark,
-            ),
-            initialRoute: "/",
-            routes: {
-              "/": (context) => GetStorage().read<bool>("introSeen") ?? false
-                  ? const MovieDiscovery()
-                  : const IntroScreens(),
-              "/search": (context) => const Search(),
-              "/movie/details": (context) => const MovieDetails(),
-              "/imagefull": (context) => const ImageFull(),
-              "/register": (context) => const RegisterPage(),
-              "/login": (context) => const LoginPage(),
-            }));
+      providers: [
+        ChangeNotifierProvider<User>(
+          create: (_) => User(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          brightness: Brightness.dark,
+        ),
+        initialRoute: "/",
+        routes: {
+          "/": (context) => GetStorage().read<bool>("introSeen") ?? false
+              ? const MovieDiscovery()
+              : const IntroScreens(),
+          "/search": (context) => const Search(),
+          "/movie/details": (context) => const MovieDetails(),
+          "/register": (context) => const RegisterPage(),
+          "/login": (context) => const LoginPage(),
+          "/imagefull": (context) => const ImageFull(),
+          '/profile': (context) => const Profile()
+        }
+      )
+    );
   }
 }

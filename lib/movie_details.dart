@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
