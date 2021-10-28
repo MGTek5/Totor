@@ -44,5 +44,25 @@ class User extends ChangeNotifier {
     notifyListeners();
   }
 
+  void signOut() {
+    _email = null;
+    _logged = false;
+    _profilePic = null;
+    _username = null;
+    _token = null;
+    _id = null;
+  }
+
+  dynamic toJson() {
+    return {
+      "email": _email,
+      "logged": _logged,
+      "profilePic": _profilePic,
+      "username": _username,
+      "token": _token,
+      "id": _id
+    };
+  }
+
   User();
 }

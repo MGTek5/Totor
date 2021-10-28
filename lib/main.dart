@@ -24,29 +24,44 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<User>(
-          create: (_) => User(),
-        )
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          brightness: Brightness.dark,
-        ),
-        initialRoute: "/",
-        routes: {
-          "/": (context) => GetStorage().read<bool>("introSeen") ?? false
-              ? const MovieDiscovery()
-              : const IntroScreens(),
-          "/search": (context) => const Search(),
-          "/movie/details": (context) => const MovieDetails(),
-          "/register": (context) => const RegisterPage(),
-          "/login": (context) => const LoginPage(),
-          "/imagefull": (context) => const ImageFull(),
-          '/profile': (context) => const Profile()
-        }
-      )
-    );
+        providers: [
+          ChangeNotifierProvider<User>(
+            create: (_) {
+              User u = User();
+              if (GetStorage().read<bool>("loggedIn") ?? false == true) {
+                dynamic data = GetStorage().read("user");
+                u.setEmail(data["email"]);
+                u.setId(data["id"]);
+                u.setLogged(true);
+                u.setProfilePic(data["profilePic"]);
+                u.setUsername(data["username"]);
+              } else {
+                GetStorage().write("loggedIn", false);
+                GetStorage().write("user", null);
+              }
+              return u;
+            },
+          )
+        ],
+        child: MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              brightness: Brightness.dark,
+            ),
+            initialRoute: "/",
+            routes: {
+              "/": (context) => GetStorage().read<bool>("introSeen") ?? false
+                  ? const MovieDiscovery()
+                  : const IntroScreens(),
+              "/search": (context) => const Search(),
+              "/movie/details": (context) => const MovieDetails(),
+              "/register": (context) => const RegisterPage(),
+              "/login": (context) => const LoginPage(),
+              "/imagefull": (context) => const ImageFull(),
+              '/profile': (context) =>
+                  GetStorage().read<bool>("loggedIn") ?? false
+                      ? const Profile()
+                      : const LoginPage()
+            }));
   }
 }

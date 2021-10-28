@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:totor/components/button.dart';
 import 'package:totor/register.dart';
 import 'package:totor/totoapi.dart';
@@ -12,6 +13,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<User>().signOut();
+
     return const Scaffold(
       resizeToAvoidBottomInset: false,
       body: LoginForm(),
@@ -129,10 +132,19 @@ class _LoginFormState extends State<LoginForm> {
                 user.setProfilePic(res["profilePic"]);
                 user.setUsername(res['username']);
                 user.setLogged(true);
+                GetStorage().write("loggedIn", true);
+                GetStorage().write("user", user.toJson());
+                Navigator.pushNamed(context, '/');
               } catch (e) {
-                return e;
+                showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return AlertDialog(
+                        title: const Text("Could not sign in"),
+                        content: Text(e.toString()),
+                      );
+                    });
               }
-              Navigator.pushNamed(context, '/');
             }
           }),
           TextButton(

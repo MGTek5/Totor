@@ -6,6 +6,7 @@ class TotorApi {
 
   TotorApi() {
     dio.options.baseUrl = "https://totor.nirah.tech";
+    dio.options.validateStatus = (status) => status! <= 500;
   }
   Future<dynamic> login(String email, String password) async {
     try {
@@ -15,8 +16,8 @@ class TotorApi {
         throw "Wrong response status. Got ${res.statusCode} but expected 200";
       }
       return res.data["user"];
-    } catch (e) {
-      return Future.error("Something went wrong: $e");
+    } on DioError catch (e) {
+      throw ("Something went wrong: $e");
     }
   }
 
@@ -34,7 +35,7 @@ class TotorApi {
       }
       return res.data;
     } catch (e) {
-      return Future.error("Something went wrong: $e");
+      throw ("Something went wrong: $e");
     }
   }
 
