@@ -7,7 +7,7 @@ packages:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.2"
+    version: "3.1.6"
   args:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.0.1"
   dots_indicator:
     dependency: transitive
     description:
@@ -159,6 +159,7 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.2.4"
 <<<<<<< HEAD
   flutter_plugin_android_lifecycle:
@@ -170,6 +171,9 @@ packages:
     version: "2.0.4"
 =======
 >>>>>>> 31aef6e ([refact] architecture)
+=======
+    version: "1.3.0"
+>>>>>>> 36dc4b5 ([fix] styling reviews)
   flutter_rating_bar:
     dependency: "direct main"
     description:
@@ -224,7 +228,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.3"
+    version: "0.13.4"
   http_parser:
     dependency: transitive
     description:
@@ -238,6 +242,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "3.0.5"
   image_picker:
     dependency: "direct main"
@@ -260,6 +265,9 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
+=======
+    version: "3.0.8"
+>>>>>>> 36dc4b5 ([fix] styling reviews)
   introduction_screen:
     dependency: "direct main"
     description:
@@ -358,20 +366,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.11.1"
   petitparser:
     dependency: transitive
     description:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.0"
+    version: "4.4.0"
   platform:
     dependency: transitive
     description:
@@ -495,7 +496,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.0"
+    version: "5.3.1"
   yaml:
     dependency: transitive
     description:

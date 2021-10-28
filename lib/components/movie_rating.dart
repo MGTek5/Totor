@@ -72,7 +72,7 @@ class _MovieRatingState extends State<MovieRating> {
               Button('Submit', () {
                 bool hasError = false;
                 try {
-                  instance.createReview(widget.m.id.toString(), "null", rate, comment);
+                  instance.createReview(widget.m.id.toString(), "aa6a4227-7321-41bd-9de9-a4919cf83dc0", rate, comment);
                   Navigator.pop(context);
                 } catch (err) {
                   hasError = true;
