@@ -5,11 +5,13 @@ class User extends ChangeNotifier {
   String? _email;
   String? _profilePic;
   String? _token;
+  String? _id;
 
   bool get logged => _logged;
   String? get email => _email;
   String? get profilePic => _profilePic;
   String? get token => _token;
+  String? get id => _id;
 
   void setEmail(String email) {
     _email = email;
@@ -28,6 +30,11 @@ class User extends ChangeNotifier {
 
   void setToken(String token) {
     _token = token;
+  }
+
+  void setId(String id) {
+    _id = id;
+    notifyListeners();
   }
 
   User();

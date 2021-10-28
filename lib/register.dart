@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,21 +32,32 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  File? image;
+  File? _image;
   final _formKey = GlobalKey<FormState>();
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _email = TextEditingController();
-  dynamic _image;
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (image == null) return;
+      final ImagePicker _picker = ImagePicker();
+      final image = await _picker.pickImage(
+        source: ImageSource.camera,
+        maxHeight: 200,
+        maxWidth: 200,
+      );
 
-      final imageTemporary = File(image.path);
-      this.image = imageTemporary;
-      _image = image;
+      setState(() {
+        if (image != null) {
+          _image = File(image.path);
+        } else {
+          print("No Image selected");
+        }
+        final bytes = File(image!.path).readAsBytesSync();
+        String base64Image = "data:image/png;base64," + base64Encode(bytes);
+
+        print("img_pan : $base64Image");
+      });
     } on PlatformException catch (e) {
       print("failed to pick image: $e");
     }
@@ -64,6 +76,10 @@ class _RegisterFormState extends State<RegisterForm> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          SizedBox(
+            child: Image.asset("assets/icon.png"),
+            height: 230,
+          ),
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
@@ -203,14 +219,20 @@ class _RegisterFormState extends State<RegisterForm> {
             _formKey.currentState!.save();
             if (_formKey.currentState!.validate()) {
               try {
-                await instance.register(
+                String encodedPicture =
+                    base64.encode(utf8.encode(_image.toString()));
+                dynamic res = await instance.register(
                   _email.text,
                   _password.text,
                   _username.text,
-                  _image.text,
+                  encodedPicture,
                 );
-                Provider.of<User>(context, listen: false).setEmail(_email.text);
-                Navigator.pop(context);
+                User user = Provider.of<User>(context, listen: false);
+                user.setEmail(res["email"]);
+                user.setId(res["id"]);
+                user.setProfilePic(res["profilePic"]);
+                user.setLogged(true);
+                Navigator.pushNamed(context, "/");
               } catch (e) {
                 print(e);
               }

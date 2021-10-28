@@ -3,6 +3,10 @@ import 'package:totor/components/button.dart';
 import 'package:totor/register.dart';
 import 'package:totor/totoapi.dart';
 
+import 'package:provider/provider.dart';
+
+import 'models/user.dart';
+
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -111,16 +115,24 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
           ),
-          Button("Login", () {
-            try {
-              instance.login(
-                _email.text,
-                _password.text,
-              );
-            } catch (e) {
-              return e;
+          Button("Login", () async {
+            _formKey.currentState!.save();
+            if (_formKey.currentState!.validate()) {
+              try {
+                dynamic res = await instance.login(
+                  _email.text,
+                  _password.text,
+                );
+                User user = Provider.of<User>(context, listen: false);
+                user.setEmail(res["email"]);
+                user.setId(res["id"]);
+                user.setProfilePic(res["profilePic"]);
+                user.setLogged(true);
+              } catch (e) {
+                return e;
+              }
+              Navigator.pop(context);
             }
-            Navigator.pop(context);
           }),
           TextButton(
               style: TextButton.styleFrom(
