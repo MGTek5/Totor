@@ -60,13 +60,13 @@ class _MovieDetailsState extends State<MovieDetails> {
         rates = tmp;
       });
     } catch (e) {
-        showDialog(
+      showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text("Something went wrong while retrieving reviews"),
-            content: Text("$e"),
-          )
-        );
+                title:
+                    const Text("Something went wrong while retrieving reviews"),
+                content: Text("$e"),
+              ));
       rates = [];
     }
   }
@@ -106,7 +106,8 @@ class _MovieDetailsState extends State<MovieDetails> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (firstTime) {
-      final MovieDetailsArguments args = ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
+      final MovieDetailsArguments args =
+          ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
       getRates(args.id);
       getDetails(args.id);
     }
@@ -130,120 +131,117 @@ class _MovieDetailsState extends State<MovieDetails> {
     }
     return (Scaffold(
       body: SafeArea(
-          child: MovieDetailsBackdrop(
-        backdrop: m!.getBackdrop(size: "original"),
-        content: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5.0, top: 25),
-                  child: Text(
-                    m!.title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 30),
-                  ),
-                ),
-                if (m!.tagline != "")
+        child: MovieDetailsBackdrop(
+          backdrop: m!.getBackdrop(size: "original"),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.only(bottom: 5.0, top: 25),
                     child: Text(
-                      m!.tagline,
-                      textAlign: TextAlign.center,
+                      m!.title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 30),
                     ),
                   ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child:
-                      Text(m!.overview, style: const TextStyle(fontSize: 18)),
-                ),
-                Wrap(
-                  direction: Axis.horizontal,
-                  children: [
-                    ...generateGenrePills(),
-                  ],
-                ),
-                if (m!.videos.isNotEmpty)
-                  MoviePart(
-                    bottomPadding: 10,
-                    title: "Trailer",
+                  if (m!.tagline != "")
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        m!.tagline,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child:
+                        Text(m!.overview, style: const TextStyle(fontSize: 18)),
+                  ),
+                  Wrap(
+                    direction: Axis.horizontal,
                     children: [
-                      MovieVideoPlayer(
-                          v: m!.videos.firstWhere(
-                              (element) => element.type == VideoType.trailer)),
+                      ...generateGenrePills(),
                     ],
                   ),
-                if (m!.cast.isNotEmpty)
-                  MoviePart(children: [
-                    SizedBox(
-                      height: 300,
-                      child: Carousel(
-                          itemCount: m!.cast.length,
-                          buildItem: (BuildContext ctx, int idx, bool active) {
-                            return CastCard(cast: m!.cast[idx], active: active);
-                          }),
-                    )
-                  ], title: "Cast"),
-                if (m!.posters.isNotEmpty)
-                  MoviePart(
-                    title: "Posters",
-                    children: [
+                  if (m!.videos.isNotEmpty)
+                    MoviePart(
+                      bottomPadding: 10,
+                      title: "Trailer",
+                      children: [
+                        MovieVideoPlayer(
+                            v: m!.videos.firstWhere((element) =>
+                                element.type == VideoType.trailer)),
+                      ],
+                    ),
+                  if (m!.cast.isNotEmpty)
+                    MoviePart(children: [
                       SizedBox(
                         height: 300,
                         child: Carousel(
-                            itemCount: m!.posters.length,
+                            itemCount: m!.cast.length,
                             buildItem:
                                 (BuildContext ctx, int idx, bool active) {
-                              return ImageCard(
-                                  path: m!.getPoster(
-                                      path: m!.posters[idx].filePath),
-                                  active: active);
+                              return CastCard(
+                                  cast: m!.cast[idx], active: active);
                             }),
                       )
-                    ],
-                  ),
-                if (m!.productionCountries.isNotEmpty)
-                  MoviePart(
-                    title: "Produced In",
-                    children: [
-                      Wrap(
-                        direction: Axis.horizontal,
-                        children: [...generateProductionCountries()],
-                        alignment: WrapAlignment.spaceEvenly,
-                        spacing: 12,
-                      ),
-                    ],
-                  ),
-                if (m!.productionCompanies.isNotEmpty)
-                  MoviePart(
-                    title: "Produced By",
-                    children: [
-                      SizedBox(
-                        height: 300,
-                        child: Carousel(
-                          vFraction: 0.85,
-                          itemCount: m!.productionCompanies.length,
-                          buildItem: (BuildContext ctx, int idx, bool active) {
-                            return ProductionCard(
-                              company: m!.productionCompanies[idx],
-                              active: active
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (rates!.isNotEmpty)
+                    ], title: "Cast"),
+                  if (m!.posters.isNotEmpty)
                     MoviePart(
-                      title: "Reviews",
+                      title: "Posters",
                       children: [
-                        ...rates!.map((e) =>
-                         Review(review: e)
-                        ).toList()
-                      ]
+                        SizedBox(
+                          height: 300,
+                          child: Carousel(
+                              itemCount: m!.posters.length,
+                              buildItem:
+                                  (BuildContext ctx, int idx, bool active) {
+                                return ImageCard(
+                                    path: m!.getPoster(
+                                        path: m!.posters[idx].filePath),
+                                    active: active);
+                              }),
+                        )
+                      ],
                     ),
+                  if (m!.productionCountries.isNotEmpty)
+                    MoviePart(
+                      title: "Produced In",
+                      children: [
+                        Wrap(
+                          direction: Axis.horizontal,
+                          children: [...generateProductionCountries()],
+                          alignment: WrapAlignment.spaceEvenly,
+                          spacing: 12,
+                        ),
+                      ],
+                    ),
+                  if (m!.productionCompanies.isNotEmpty)
+                    MoviePart(
+                      title: "Produced By",
+                      children: [
+                        SizedBox(
+                          height: 300,
+                          child: Carousel(
+                            vFraction: 0.85,
+                            itemCount: m!.productionCompanies.length,
+                            buildItem:
+                                (BuildContext ctx, int idx, bool active) {
+                              return ProductionCard(
+                                  company: m!.productionCompanies[idx],
+                                  active: active);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  if (rates!.isNotEmpty)
+                    MoviePart(title: "Reviews", children: [
+                      ...rates!.map((e) => Review(review: e)).toList()
+                    ]),
                 ],
               ),
             ),
@@ -254,16 +252,14 @@ class _MovieDetailsState extends State<MovieDetails> {
           ? FloatingActionButton(
               onPressed: () {
                 showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return MovieRating(m: m!, u: user);
-                  }
-                );
+                    context: context,
+                    builder: (BuildContext context) {
+                      return MovieRating(m: m!, u: user);
+                    });
               },
               child: const Icon(Icons.star, color: Color(0xff303030)),
-              backgroundColor: const Color(0xffEEB868)
-            )
+              backgroundColor: const Color(0xffEEB868))
           : null,
-    );
+    ));
   }
 }

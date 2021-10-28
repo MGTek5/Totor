@@ -26,10 +26,18 @@ class Review extends StatelessWidget {
                     direction: Axis.horizontal,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircleAvatar(
-                        foregroundImage: MemoryImage(
-                            base64Decode(review.user['profilePic'])),
-                        radius: 25,
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            foregroundImage: MemoryImage(
+                                base64Decode(review.user['profilePic'])),
+                            radius: 25,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(review.user["username"]),
+                          ),
+                        ],
                       ),
                       Row(
                         children: [
