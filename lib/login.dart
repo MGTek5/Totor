@@ -47,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
             "Welcome Back",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),
-          const Text("Sign in with yout email and password"),
+          const Text("Sign in with your email and password"),
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
@@ -132,7 +132,7 @@ class _LoginFormState extends State<LoginForm> {
               } catch (e) {
                 return e;
               }
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/');
             }
           }),
           TextButton(

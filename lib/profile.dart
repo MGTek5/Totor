@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,9 +19,7 @@ class Profile extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: MediaQuery.of(context).size.width * 0.4,
-              foregroundImage: Image.network(
-                "https://avatars.githubusercontent.com/u/40118153?v=4",
-              ).image,
+              foregroundImage: MemoryImage(base64Decode(user.profilePic!))
             ),
             Text(user.username!),
             Text(user.email!)
