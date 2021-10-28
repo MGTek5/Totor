@@ -26,7 +26,8 @@ class TotorApi {
       Response res = await dio.post("/auth/register", data: {
         "email": email,
         "password": password,
-        "profilePic": profilePic
+        "profilePic": profilePic,
+        "username": username
       });
       if (res.statusCode != 200) {
         throw "Wrong response status, got ${res.statusCode} but expected 200";
