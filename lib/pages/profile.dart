@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -45,6 +46,7 @@ class Profile extends StatelessWidget {
             Button("Sign Out", () {
               GetStorage().write("loggedIn", false);
               GetStorage().write("user", null);
+              Fluttertoast.showToast(msg: "See you, ${user.username}");
               Navigator.popAndPushNamed(context, "/login");
             })
           ],

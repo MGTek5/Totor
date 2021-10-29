@@ -128,7 +128,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return (Scaffold(
       body: SafeArea(
         child: MovieDetailsBackdrop(
-          backdrop: m!.getBackdrop(size: "w500"),
+          backdrop: m!.getBackdrop(size: "w780"),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -250,7 +250,12 @@ class _MovieDetailsState extends State<MovieDetails> {
                 showModalBottomSheet<void>(
                     context: context,
                     builder: (BuildContext context) {
-                      return MovieRating(m: m!, u: user);
+                      return MovieRating(
+                          m: m!,
+                          u: user,
+                          onDone: () {
+                            getRates(m!.id);
+                          });
                     });
               },
               child: Icon(Icons.star, color: totorGrey),

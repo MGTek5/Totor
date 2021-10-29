@@ -8,11 +8,13 @@ import 'button.dart';
 import '../models/movie.dart';
 
 class MovieRating extends StatefulWidget {
-  const MovieRating({Key? key, required this.m, required this.u})
+  const MovieRating(
+      {Key? key, required this.m, required this.u, required this.onDone})
       : super(key: key);
 
   final Movie m;
   final User u;
+  final Function onDone;
 
   @override
   State<MovieRating> createState() => _MovieRatingState();
@@ -73,11 +75,12 @@ class _MovieRatingState extends State<MovieRating> {
                   });
                 },
               ),
-              Button('Submit', () {
+              Button('Submit', () async {
                 bool hasError = false;
                 try {
-                  instance.createReview(
+                  await instance.createReview(
                       widget.m.id.toString(), widget.u.id!, rate, comment);
+                  widget.onDone();
                   Navigator.pop(context);
                 } catch (err) {
                   hasError = true;

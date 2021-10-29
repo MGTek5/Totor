@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:totor/components/button.dart';
@@ -72,16 +73,15 @@ class _LoginPageState extends State<LoginPage> {
                               );
                               User user =
                                   Provider.of<User>(context, listen: false);
-                              user.setEmail(res["email"]);
-                              user.setId(res["id"]);
-                              user.setProfilePic(res["profilePic"]);
-                              user.setUsername(res['username']);
-                              user.setLogged(true);
+                              user.signIn(res["id"], res["email"],
+                                  res['username'], res["profilePic"]);
                               GetStorage().write("loggedIn", true);
                               GetStorage().write("user", user.toJson());
                               setState(() {
                                 _loading = false;
                               });
+                              Fluttertoast.showToast(
+                                  msg: "Welcome back, ${user.username}");
                               Navigator.pushNamed(context, '/');
                             } catch (e) {
                               showDialog(
