@@ -1,3 +1,5 @@
+import 'package:totor/models/genre.dart';
+
 class MovieDetailsArguments {
   final int id;
 
@@ -20,4 +22,10 @@ class CompanyDetailArguments {
   final int id;
 
   CompanyDetailArguments(this.id);
+}
+
+class GenreDiscoveryArguments {
+  final Genre genre;
+
+  GenreDiscoveryArguments(this.genre);
 }

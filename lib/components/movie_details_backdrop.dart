@@ -15,7 +15,7 @@ class MovieDetailsBackdrop extends StatelessWidget {
           image: DecorationImage(
               image: NetworkImage(backdrop), fit: BoxFit.cover)),
       child: Container(
-        decoration: const BoxDecoration(color: Color.fromARGB(100, 0, 0, 0)),
+        decoration: const BoxDecoration(color: Colors.black45),
         child: content,
       ),
     );

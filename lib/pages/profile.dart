@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:totor/components/button.dart';
-import 'package:totor/nav_list.dart';
+import 'package:totor/utils/nav_list.dart';
 
-import 'models/user.dart';
+import '../models/user.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -30,7 +28,7 @@ class Profile extends StatelessWidget {
             Center(
               child: CircleAvatar(
                   radius: MediaQuery.of(context).size.width * 0.3,
-                  foregroundImage: MemoryImage(base64Decode(user.profilePic!))),
+                  foregroundImage: NetworkImage(user.profilePic!)),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 20),

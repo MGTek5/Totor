@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:totor/arguments.dart';
+import 'package:totor/utils/arguments.dart';
 import 'package:totor/models/production_company.dart';
 
 class ProductionCard extends StatelessWidget {
@@ -33,19 +33,14 @@ class ProductionCard extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                  color: const Color(0xffEEB868).withOpacity(0.3),
+                  color: Colors.white12,
                   blurRadius: blur,
                   offset: Offset(offset, offset))
             ]),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black45,
-                    blurRadius: blur,
-                    offset: Offset(offset, offset))
-              ]),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Column(

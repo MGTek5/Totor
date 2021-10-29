@@ -6,6 +6,7 @@ class TMDB {
     dio = Dio();
     dio.options.baseUrl = "https://api.themoviedb.org/3";
     dio.options.queryParameters = {"api_key": apiKey};
+    dio.options.validateStatus = (status) => status! <= 500;
   }
   late Dio dio;
   String apiKey;
@@ -22,10 +23,10 @@ class TMDB {
         }
         return res;
       } else {
-        return Future.error("Status KO receiving movies");
+        throw "Status KO receiving movies";
       }
     } catch (e) {
-      return Future.error("Something went wrong");
+      throw "Something went wrong";
     }
   }
 
@@ -42,10 +43,10 @@ class TMDB {
         }
         return res;
       } else {
-        return Future.error("Status KO searching movies");
+        throw "Status KO searching movies";
       }
     } catch (e) {
-      return Future.error("Something went wrong");
+      throw "Something went wrong";
     }
   }
 
@@ -58,10 +59,31 @@ class TMDB {
       if (response.statusCode == 200) {
         return Movie.fromJson(response.data, details: true);
       } else {
-        return Future.error("Request for movie $id failed");
+        throw "Request for movie $id failed";
       }
     } catch (e) {
-      return Future.error("Something went wrong while retrieving movie: $e");
+      throw "Something went wrong while retrieving movie: $e";
+    }
+  }
+
+  Future<List<Movie>> getMoviesWithGenre(
+      {required int id, int page = 1}) async {
+    try {
+      List<Movie> res = [];
+      Response response = await dio.get("/discover/movie",
+          queryParameters: {"with_genres": "$id", "page": page});
+
+      if (response.statusCode == 200) {
+        dynamic data = response.data;
+        for (var item in data["results"]) {
+          res.add(Movie.fromJson(item));
+        }
+        return res;
+      } else {
+        throw "Status KO searching movies";
+      }
+    } catch (e) {
+      throw "Could not discover movies with specified genre";
     }
   }
 }

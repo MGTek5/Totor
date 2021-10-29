@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:totor/models/user.dart';
-import 'package:totor/totoapi.dart';
+import 'package:totor/utils/totor_api.dart';
 
 import 'button.dart';
 import '../models/movie.dart';

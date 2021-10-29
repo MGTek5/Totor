@@ -18,12 +18,12 @@ List<RouteData> data = [
   RouteData(
       icon: const Icon(Icons.list),
       title: const Text("Discover"),
-      selectedColor: Colors.purple,
+      selectedColor: Colors.deepOrange,
       routeName: "/"),
   RouteData(
       icon: const Icon(Icons.search),
       title: const Text("Search"),
-      selectedColor: Colors.pink,
+      selectedColor: Colors.yellow,
       routeName: "/search"),
   RouteData(
       icon: const Icon(Icons.person),

@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:totor/arguments.dart';
+import 'package:readmore/readmore.dart';
+import 'package:totor/utils/arguments.dart';
 import 'package:totor/components/carousel.dart';
 import 'package:totor/components/cast_card.dart';
 import 'package:totor/components/movie_image_carousel.dart';
@@ -15,11 +16,12 @@ import 'package:totor/components/review.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/models/video.dart';
-import 'package:totor/totoapi.dart' as totor_api;
+import 'package:totor/utils/custom_colors.dart';
+import 'package:totor/utils/totor_api.dart' as totor_api;
 
-import 'components/movie_details_backdrop.dart';
-import 'models/rate.dart';
-import 'tmdb.dart';
+import '../components/movie_details_backdrop.dart';
+import '../models/rate.dart';
+import '../utils/tmdb.dart';
 
 class MovieDetails extends StatefulWidget {
   const MovieDetails({Key? key}) : super(key: key);
@@ -86,14 +88,8 @@ class _MovieDetailsState extends State<MovieDetails> {
         padding: const EdgeInsets.only(right: 8.0),
         child: InkWell(
             onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Selected Genre"),
-                      content: Text(genre.name),
-                    );
-                  });
+              Navigator.pushNamed(context, "/movie/genre",
+                  arguments: GenreDiscoveryArguments(genre));
             },
             child: Chip(label: Text(genre.name))),
       ));
@@ -132,7 +128,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return (Scaffold(
       body: SafeArea(
         child: MovieDetailsBackdrop(
-          backdrop: m!.getBackdrop(size: "original"),
+          backdrop: m!.getBackdrop(size: "w500"),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -157,8 +153,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
-                    child:
-                        Text(m!.overview, style: const TextStyle(fontSize: 18)),
+                    child: ReadMoreText(m!.overview,
+                        style: const TextStyle(fontSize: 18)),
                   ),
                   Wrap(
                     direction: Axis.horizontal,
@@ -257,8 +253,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                       return MovieRating(m: m!, u: user);
                     });
               },
-              child: const Icon(Icons.star, color: Color(0xff303030)),
-              backgroundColor: const Color(0xffEEB868))
+              child: Icon(Icons.star, color: totorGrey),
+              backgroundColor: totorYellow)
           : null,
     ));
   }
