@@ -7,9 +7,8 @@ class Rate {
 
   factory Rate.fromJson(dynamic data) {
     return Rate(
-      rate: data['rating'] == null ? 0.0 : data['rating'].toDouble(),
-      comment: data['commentary'],
-      user: data['user']
-    );
+        rate: data['rating'] == null ? 0.0 : data['rating'].toDouble(),
+        comment: data['commentary'],
+        user: data['user']);
   }
 }
