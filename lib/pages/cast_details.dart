@@ -66,7 +66,7 @@ class _CastDetailsState extends State<CastDetails> {
               if (person.biography!.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
-                  child: ReadMoreText(person.biography),
+                  child: ReadMoreText(person.biography ?? ""),
                 ),
               if (person.movieCredits.isNotEmpty)
                 Padding(
