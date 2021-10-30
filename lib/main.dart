@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:totor/pages/genres.dart';
 import 'package:totor/pages/image_full.dart';
 import 'package:totor/pages/login.dart';
-import 'package:totor/cast_details.dart';
+import 'package:totor/pages/cast_details.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/pages/movie_details.dart';
 import 'package:totor/pages/profile.dart';

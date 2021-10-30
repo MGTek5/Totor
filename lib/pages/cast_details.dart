@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:expandable/expandable.dart';
-import 'package:totor/arguments.dart';
+import 'package:readmore/readmore.dart';
+import 'package:totor/utils/arguments.dart';
 import 'package:totor/components/cast_movie_carousel.dart';
 import 'package:totor/models/person.dart';
-import 'package:totor/tmdb.dart';
+import 'package:totor/utils/tmdb.dart';
 
 class CastDetails extends StatefulWidget {
   const CastDetails({Key? key}) : super(key: key);
@@ -65,17 +65,7 @@ class _CastDetailsState extends State<CastDetails> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: ExpandablePanel(
-                  header: const Text("Biography"),
-                  expanded: Text(person.biography ?? "No bio"),
-                  collapsed: Text(
-                    person.biography ?? "No bio",
-                    softWrap: true,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  theme: const ExpandableThemeData(iconColor: Colors.white),
-                ),
+                child: ReadMoreText(person.biography ?? "No bio"),
               ),
               if (person.movieCredits.isNotEmpty)
                 Padding(
