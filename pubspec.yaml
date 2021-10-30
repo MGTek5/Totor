@@ -1,7 +1,7 @@
 name: totor
 description: Like AlloCiné but worst.
 publish_to: "none"
-version: 1.3.0
+version: 2.0.0
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
