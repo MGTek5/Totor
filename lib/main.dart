@@ -57,10 +57,9 @@ class MyApp extends StatelessWidget {
               "/register": (context) => const RegisterPage(),
               "/login": (context) => const LoginPage(),
               "/imagefull": (context) => const ImageFull(),
-              '/profile': (context) =>
-                  GetStorage().read<bool>("loggedIn") ?? false
-                      ? const Profile()
-                      : const LoginPage()
+              '/profile': (context) => context.read<User>().logged
+                  ? const Profile()
+                  : const LoginPage()
             }));
   }
 }
