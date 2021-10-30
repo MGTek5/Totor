@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:totor/arguments.dart';
+import 'package:totor/utils/arguments.dart';
 
 class ImageFull extends StatelessWidget {
   const ImageFull({Key? key}) : super(key: key);

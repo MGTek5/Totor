@@ -5,13 +5,11 @@ class User extends ChangeNotifier {
   String? _email;
   String? _username;
   String? _profilePic;
-  String? _token;
   String? _id;
 
   bool get logged => _logged;
   String? get email => _email;
   String? get profilePic => _profilePic;
-  String? get token => _token;
   String? get id => _id;
   String? get username => _username;
 
@@ -35,10 +33,6 @@ class User extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setToken(String token) {
-    _token = token;
-  }
-
   void setId(String id) {
     _id = id;
     notifyListeners();
@@ -49,8 +43,15 @@ class User extends ChangeNotifier {
     _logged = false;
     _profilePic = null;
     _username = null;
-    _token = null;
     _id = null;
+  }
+
+  void signIn(String id, String email, String username, String profilePic) {
+    _id = id;
+    _email = email;
+    _username = username;
+    _profilePic = profilePic;
+    _logged = true;
   }
 
   dynamic toJson() {
@@ -59,7 +60,6 @@ class User extends ChangeNotifier {
       "logged": _logged,
       "profilePic": _profilePic,
       "username": _username,
-      "token": _token,
       "id": _id
     };
   }

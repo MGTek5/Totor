@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -29,8 +27,8 @@ class Review extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
-                            foregroundImage: MemoryImage(
-                                base64Decode(review.user['profilePic'])),
+                            foregroundImage:
+                                NetworkImage(review.user['profilePic']),
                             radius: 25,
                           ),
                           Padding(

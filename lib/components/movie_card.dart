@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:totor/arguments.dart';
+import 'package:totor/utils/arguments.dart';
 import 'package:totor/models/movie.dart';
 
 class MovieCard extends StatelessWidget {
@@ -31,7 +32,7 @@ class MovieCard extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                  color: const Color(0xffEEB868).withOpacity(0.3),
+                  color: Colors.black54,
                   blurRadius: blur,
                   offset: Offset(offset, offset))
             ]),

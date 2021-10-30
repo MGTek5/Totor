@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:totor/image_full.dart';
-import 'package:totor/login.dart';
+import 'package:totor/pages/genres.dart';
+import 'package:totor/pages/image_full.dart';
+import 'package:totor/pages/login.dart';
 import 'package:totor/models/user.dart';
-import 'package:totor/movie_details.dart';
-import 'package:totor/profile.dart';
-import 'package:totor/search.dart';
-import 'package:totor/register.dart';
-import 'intro_screens.dart';
-import 'movie_discovery.dart';
+import 'package:totor/pages/movie_details.dart';
+import 'package:totor/pages/profile.dart';
+import 'package:totor/pages/search.dart';
+import 'package:totor/pages/register.dart';
+import 'pages/intro_screens.dart';
+import 'pages/movie_discovery.dart';
 
 void main() async {
   await GetStorage.init();
@@ -30,11 +31,8 @@ class MyApp extends StatelessWidget {
               User u = User();
               if (GetStorage().read<bool>("loggedIn") ?? false == true) {
                 dynamic data = GetStorage().read("user");
-                u.setEmail(data["email"]);
-                u.setId(data["id"]);
-                u.setLogged(true);
-                u.setProfilePic(data["profilePic"]);
-                u.setUsername(data["username"]);
+                u.signIn(data["id"], data["email"], data["username"],
+                    data["profilePic"]);
               } else {
                 GetStorage().write("loggedIn", false);
                 GetStorage().write("user", null);
@@ -55,13 +53,13 @@ class MyApp extends StatelessWidget {
                   : const IntroScreens(),
               "/search": (context) => const Search(),
               "/movie/details": (context) => const MovieDetails(),
+              "/movie/genre": (context) => const GenresPage(),
               "/register": (context) => const RegisterPage(),
               "/login": (context) => const LoginPage(),
               "/imagefull": (context) => const ImageFull(),
-              '/profile': (context) =>
-                  GetStorage().read<bool>("loggedIn") ?? false
-                      ? const Profile()
-                      : const LoginPage()
+              '/profile': (context) => context.read<User>().logged
+                  ? const Profile()
+                  : const LoginPage()
             }));
   }
 }

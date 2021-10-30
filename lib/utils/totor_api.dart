@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:totor/models/rate.dart';
 
+const String imgbbKey = "90a78c97ebd887802c54c25e89977770";
+
 class TotorApi {
   Dio dio = Dio();
 
@@ -18,6 +20,18 @@ class TotorApi {
       return res.data["user"];
     } on DioError catch (e) {
       throw ("Something went wrong: $e");
+    }
+  }
+
+  Future<String> uploadImage(String data) async {
+    try {
+      Response res = await Dio().post("https://api.imgbb.com/1/upload",
+          queryParameters: {"key": imgbbKey},
+          data: FormData.fromMap({"image": data}));
+
+      return res.data["data"]["url"];
+    } catch (e) {
+      throw "Could not upload or get image url ";
     }
   }
 

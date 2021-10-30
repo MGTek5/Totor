@@ -5,8 +5,8 @@ import 'package:totor/components/carousel.dart';
 import 'package:totor/components/movie_card.dart';
 import 'package:totor/models/movie.dart';
 
-import 'tmdb.dart';
-import 'nav_list.dart';
+import '../utils/tmdb.dart';
+import '../utils/nav_list.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);

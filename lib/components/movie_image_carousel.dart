@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:totor/arguments.dart';
+import 'package:totor/utils/arguments.dart';
 
 class ImageCard extends StatelessWidget {
   const ImageCard({Key? key, required this.path, required this.active})
@@ -30,52 +30,11 @@ class ImageCard extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                  color: const Color(0xffEEB868).withOpacity(0.3),
+                  color: Colors.black54,
                   blurRadius: blur,
                   offset: Offset(offset, offset))
             ]),
       ),
     );
-  }
-}
-
-class MovieImageCarousel extends StatefulWidget {
-  const MovieImageCarousel({Key? key, required this.items}) : super(key: key);
-  final List<String> items;
-
-  @override
-  State<MovieImageCarousel> createState() => _MovieImageCarouselState();
-}
-
-class _MovieImageCarouselState extends State<MovieImageCarousel> {
-  PageController controller = PageController(viewportFraction: 0.8);
-  int currentPage = 0;
-
-  @override
-  initState() {
-    super.initState();
-    controller.addListener(() {
-      int next = controller.page!.round();
-      if (currentPage != next) {
-        setState(() {
-          currentPage = next;
-        });
-      }
-    });
-  }
-
-  Widget _buildMoviePage(String path, bool active) {
-    return ImageCard(path: path, active: active);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return PageView.builder(
-        controller: controller,
-        itemCount: widget.items.length,
-        itemBuilder: (ctx, int currentIdx) {
-          bool active = currentIdx == currentPage;
-          return _buildMoviePage(widget.items[currentIdx], active);
-        });
   }
 }
