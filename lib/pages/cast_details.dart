@@ -63,10 +63,11 @@ class _CastDetailsState extends State<CastDetails> {
                 person.getProfilePic(),
                 width: MediaQuery.of(context).size.width / 2,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: ReadMoreText(person.biography ?? "No bio"),
-              ),
+              if (person.biography!.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: ReadMoreText(person.biography),
+                ),
               if (person.movieCredits.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
