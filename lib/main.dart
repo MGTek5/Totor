@@ -31,11 +31,8 @@ class MyApp extends StatelessWidget {
               User u = User();
               if (GetStorage().read<bool>("loggedIn") ?? false == true) {
                 dynamic data = GetStorage().read("user");
-                u.setEmail(data["email"]);
-                u.setId(data["id"]);
-                u.setLogged(true);
-                u.setProfilePic(data["profilePic"]);
-                u.setUsername(data["username"]);
+                u.signIn(data["id"], data["email"], data["username"],
+                    data["profilePic"]);
               } else {
                 GetStorage().write("loggedIn", false);
                 GetStorage().write("user", null);
