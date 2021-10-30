@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:totor/models/movie.dart';
+import 'package:totor/models/person.dart';
 
 class TMDB {
   TMDB({required this.apiKey}) {
@@ -84,6 +85,25 @@ class TMDB {
       }
     } catch (e) {
       throw "Could not discover movies with specified genre";
+    }
+  }
+
+  Future<Person> getPerson({required int id}) async {
+    try {
+      Response response = await dio.get("/person/$id",
+          queryParameters: {"append_to_response": "movie_credits"});
+      if (response.statusCode == 200) {
+        return Person.fromJson(
+            data: response.data,
+            type: response.data["known_for_department"] == "Acting"
+                ? PersonType.cast
+                : PersonType.crew,
+            details: true);
+      } else {
+        return Future.error("Request for person $id failed");
+      }
+    } catch (e) {
+      return Future.error("Something went wrong while retrieving person: $e");
     }
   }
 }

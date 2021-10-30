@@ -18,7 +18,7 @@ class CastCard extends StatelessWidget {
         const TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, "/cast",
+        Navigator.pushNamed(context, "/cast/details",
             arguments: CastDetailArguments(cast.id));
       },
       child: AnimatedContainer(
@@ -46,13 +46,13 @@ class CastCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                cast.originalName,
+                cast.name,
                 style: titleStile,
                 textAlign: TextAlign.center,
               ),
               const Text("as"),
               Text(
-                cast.character,
+                cast.character ?? "Anon",
                 style: titleStile,
                 textAlign: TextAlign.center,
               )

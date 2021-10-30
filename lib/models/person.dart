@@ -1,11 +1,15 @@
+import 'package:totor/models/movie.dart';
+
 enum PersonType { cast, crew }
 
 class Person {
   int id;
   String name;
-  String originalName;
+  String? originalName;
   String department;
   String? profilePath;
+  String? biography;
+  List<Movie> movieCredits = [];
 
   String getProfilePic({String size = "w500"}) {
     if (profilePath != null) {
@@ -21,19 +25,29 @@ class Person {
       required this.department,
       required this.profilePath});
 
-  factory Person.fromJson({required dynamic data, required PersonType type}) {
-    return Cast(
+  factory Person.fromJson(
+      {required dynamic data, required PersonType type, bool details = false}) {
+    Cast c = Cast(
         id: data["id"],
         character: data["character"],
         name: data["name"],
         originalName: data["original_name"],
         department: data["known_for_department"],
         profilePath: data["profile_path"]);
+
+    if (details) {
+      c.biography = data["biography"];
+      for (var m in data["movie_credits"]["cast"]) {
+        c.movieCredits.add(Movie.fromJson(m));
+      }
+    }
+
+    return c;
   }
 }
 
 class Cast extends Person {
-  String character;
+  String? character;
 
   Cast(
       {required id,
