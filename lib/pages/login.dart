@@ -92,6 +92,9 @@ class _LoginPageState extends State<LoginPage> {
                                       content: Text(e.toString()),
                                     );
                                   });
+                              setState(() {
+                                _loading = false;
+                              });
                             }
                           }
                         }),

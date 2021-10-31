@@ -73,6 +73,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 title: const Text("Something went wrong"),
                 content: Text(e.toString()),
               ));
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
