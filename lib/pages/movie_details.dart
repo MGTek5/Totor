@@ -92,7 +92,10 @@ class _MovieDetailsState extends State<MovieDetails> {
               Navigator.pushNamed(context, "/movie/genre",
                   arguments: GenreDiscoveryArguments(genre));
             },
-            child: Chip(label: Text(genre.name))),
+            child: Chip(
+              label: Text(genre.name),
+              backgroundColor: genre.getColor(),
+            )),
       ));
     }
 
