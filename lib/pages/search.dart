@@ -14,45 +14,53 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  void handleSearchChange() {
-    if (searchController.text.isEmpty) {
+  Future<List<Movie>> _searchMovies({required String query}) {
+    try {
+      return instance.searchMovie(query: query);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  void _handleSearchChange() async {
+    if (_searchController.text.isEmpty) {
       setState(() {
         _searchResults = [];
       });
     }
-    if (searchController.text.isNotEmpty &&
-        searchController.text.length % 3 == 0) {
+    if (_searchController.text.isNotEmpty &&
+        _searchController.text.length % 3 == 0) {
       setState(() {
-        loading = true;
+        _loading = true;
       });
-      instance.searchMovie(query: searchController.text).then((value) {
+      try {
+        List<Movie> tmp = await _searchMovies(query: _searchController.text);
         setState(() {
-          _searchResults = value;
-          loading = false;
+          _searchResults = tmp;
+          _loading = false;
         });
-      }).catchError((error) {
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Ooops: $error"),
+          content: Text("Ooops: ${e.toString()}"),
         ));
-      });
+      }
     }
   }
 
   List<Movie> _searchResults = [];
-  bool loading = false;
-  TextEditingController searchController = TextEditingController();
-  int lastPage = 1;
+  bool _loading = false;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    searchController.addListener(handleSearchChange);
+    _searchController.addListener(_handleSearchChange);
   }
 
   @override
   void dispose() {
     super.dispose();
-    searchController.dispose();
+    _searchController.dispose();
   }
 
   Widget _buildMoviePage(Movie m, bool active) {
@@ -63,7 +71,7 @@ class _SearchState extends State<Search> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
       child: (TextField(
-        controller: searchController,
+        controller: _searchController,
         decoration: const InputDecoration(
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -82,7 +90,7 @@ class _SearchState extends State<Search> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           buildSearchInput(),
-          if (loading) ...[const CircularProgressIndicator.adaptive()],
+          if (_loading) ...[const CircularProgressIndicator.adaptive()],
           if (_searchResults.isEmpty)
             const Text("Nothing to see here, start typing to see some results"),
           if (_searchResults.isNotEmpty)
