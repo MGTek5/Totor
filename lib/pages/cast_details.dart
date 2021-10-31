@@ -14,15 +14,15 @@ class CastDetails extends StatefulWidget {
 }
 
 class _CastDetailsState extends State<CastDetails> {
-  bool firstTime = true;
-  late Cast person;
+  bool _firstTime = true;
+  late Cast _person;
 
-  getDetails(int id) async {
+  _getDetails(int id) async {
     try {
       Cast tmp = await instance.getPerson(id: id);
       setState(() {
-        firstTime = false;
-        person = tmp;
+        _firstTime = false;
+        _person = tmp;
       });
     } catch (e) {
       showDialog(
@@ -36,10 +36,10 @@ class _CastDetailsState extends State<CastDetails> {
 
   @override
   void didChangeDependencies() {
-    if (firstTime) {
+    if (_firstTime) {
       final CastDetailArguments args =
           ModalRoute.of(context)!.settings.arguments as CastDetailArguments;
-      getDetails(args.id);
+      _getDetails(args.id);
     }
     super.didChangeDependencies();
   }
@@ -48,7 +48,7 @@ class _CastDetailsState extends State<CastDetails> {
       const TextStyle(fontSize: 20, fontWeight: FontWeight.w700);
   @override
   Widget build(BuildContext context) {
-    if (firstTime) {
+    if (_firstTime) {
       return const Scaffold(
         body: SafeArea(
             child: Center(
@@ -65,20 +65,20 @@ class _CastDetailsState extends State<CastDetails> {
           child: Column(
             children: [
               Text(
-                person.name,
+                _person.name,
                 style: sectionTitle,
                 textAlign: TextAlign.center,
               ),
               Image.network(
-                person.getProfilePic(),
+                _person.getProfilePic(),
                 width: MediaQuery.of(context).size.width / 2,
               ),
-              if (person.biography!.isNotEmpty)
+              if (_person.biography!.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
-                  child: ReadMoreText(person.biography ?? ""),
+                  child: ReadMoreText(_person.biography ?? ""),
                 ),
-              if (person.movieCredits.isNotEmpty)
+              if (_person.movieCredits.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Column(
@@ -94,11 +94,11 @@ class _CastDetailsState extends State<CastDetails> {
                                 return MovieCard(
                                     activeTop: 50,
                                     inactiveTop: 125,
-                                    movie: person.movieCredits[idx],
+                                    movie: _person.movieCredits[idx],
                                     active: active);
                               },
                               vFraction: 0.85,
-                              itemCount: person.movieCredits.length))
+                              itemCount: _person.movieCredits.length))
                     ],
                   ),
                 )

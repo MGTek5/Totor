@@ -14,19 +14,19 @@ class MovieDiscovery extends StatefulWidget {
 
 class _MovieDiscoveryState extends State<MovieDiscovery> {
   List<Movie> _data = [];
-  int lastPage = 1;
-  void getMovies({int page = 1}) async {
+  int _lastPage = 1;
+  void _getMovies({int page = 1}) async {
     List<Movie> data = await instance.getTrendingMovies(page: page);
     setState(() {
       _data = _data + data;
-      lastPage = page;
+      _lastPage = page;
     });
   }
 
   @override
   initState() {
     super.initState();
-    getMovies();
+    _getMovies();
   }
 
   Widget _buildMoviePage(Movie m, bool active) {
@@ -56,7 +56,7 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
             itemCount: _data.length,
             buildItem: (BuildContext ctx, int idx, bool active) {
               if (idx == _data.length - 10) {
-                getMovies(page: lastPage + 1);
+                _getMovies(page: _lastPage + 1);
               }
               return _buildMoviePage(_data[idx], active);
             }));

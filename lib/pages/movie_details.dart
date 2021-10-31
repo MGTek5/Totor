@@ -29,19 +29,16 @@ class MovieDetails extends StatefulWidget {
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
-  late User user;
-  List<Rate>? rates = [];
-  Movie? m;
-  bool firstTime = true;
-  TextStyle sectionTitle =
-      const TextStyle(fontSize: 20, fontWeight: FontWeight.w700);
+  List<Rate>? _rates = [];
+  Movie? _m;
+  bool _firstTime = true;
 
-  getDetails(int id) async {
+  _getDetails(int id) async {
     try {
       Movie tmp = await instance.getMovie(id: id);
       setState(() {
-        m = tmp;
-        firstTime = false;
+        _m = tmp;
+        _firstTime = false;
       });
     } catch (e) {
       showDialog(
@@ -53,11 +50,11 @@ class _MovieDetailsState extends State<MovieDetails> {
     }
   }
 
-  getRates(int id) async {
+  _getRates(int id) async {
     try {
       List<Rate> tmp = await totor_api.instance.getReviews(id.toString());
       setState(() {
-        rates = tmp;
+        _rates = tmp;
       });
     } catch (e) {
       showDialog(
@@ -67,21 +64,21 @@ class _MovieDetailsState extends State<MovieDetails> {
                     const Text("Something went wrong while retrieving reviews"),
                 content: Text("$e"),
               ));
-      rates = [];
+      _rates = [];
     }
   }
 
-  List<Widget> generateProductionCountries() {
-    return m!.productionCountries
+  List<Widget> _generateProductionCountries() {
+    return _m!.productionCountries
         .map((e) =>
             SizedBox(height: 100, width: 100, child: Flag.fromString(e.iso)))
         .toList();
   }
 
-  List<Widget> generateGenrePills() {
+  List<Widget> _generateGenrePills() {
     List<Widget> tmp = [];
 
-    for (Genre genre in m!.genres) {
+    for (Genre genre in _m!.genres) {
       tmp.add(Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: InkWell(
@@ -102,18 +99,18 @@ class _MovieDetailsState extends State<MovieDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (firstTime) {
+    if (_firstTime) {
       final MovieDetailsArguments args =
           ModalRoute.of(context)!.settings.arguments as MovieDetailsArguments;
-      getRates(args.id);
-      getDetails(args.id);
+      _getRates(args.id);
+      _getDetails(args.id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    user = context.watch<User>();
-    if (m == null) {
+    User user = context.watch<User>();
+    if (_m == null) {
       return Scaffold(
         body: Center(
           child: Column(
@@ -129,7 +126,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return (Scaffold(
       body: SafeArea(
         child: MovieDetailsBackdrop(
-          backdrop: m!.getBackdrop(size: "w780"),
+          backdrop: _m!.getBackdrop(size: "w780"),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -139,74 +136,74 @@ class _MovieDetailsState extends State<MovieDetails> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 5.0, top: 25),
                     child: Text(
-                      m!.title,
+                      _m!.title,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 30),
                     ),
                   ),
-                  if (m!.tagline != "")
+                  if (_m!.tagline != "")
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
-                        m!.tagline,
+                        _m!.tagline,
                         textAlign: TextAlign.center,
                       ),
                     ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
-                    child: ReadMoreText(m!.overview,
+                    child: ReadMoreText(_m!.overview,
                         style: const TextStyle(fontSize: 18)),
                   ),
                   Wrap(
                     direction: Axis.horizontal,
                     children: [
-                      ...generateGenrePills(),
+                      ..._generateGenrePills(),
                     ],
                   ),
-                  if (m!.cast.isNotEmpty)
+                  if (_m!.cast.isNotEmpty)
                     MoviePart(children: [
                       SizedBox(
                         height: 300,
                         child: Carousel(
-                            itemCount: m!.cast.length,
+                            itemCount: _m!.cast.length,
                             buildItem:
                                 (BuildContext ctx, int idx, bool active) {
                               return CastCard(
-                                  cast: m!.cast[idx], active: active);
+                                  cast: _m!.cast[idx], active: active);
                             }),
                       )
                     ], title: "Cast"),
-                  if (m!.posters.isNotEmpty)
+                  if (_m!.posters.isNotEmpty)
                     MoviePart(
                       title: "Posters",
                       children: [
                         SizedBox(
                           height: 300,
                           child: Carousel(
-                              itemCount: m!.posters.length,
+                              itemCount: _m!.posters.length,
                               buildItem:
                                   (BuildContext ctx, int idx, bool active) {
                                 return ImageCard(
-                                    path: m!.getPoster(
-                                        path: m!.posters[idx].filePath),
+                                    path: _m!.getPoster(
+                                        path: _m!.posters[idx].filePath),
                                     active: active);
                               }),
                         )
                       ],
                     ),
-                  if (m!.productionCountries.isNotEmpty)
+                  if (_m!.productionCountries.isNotEmpty)
                     MoviePart(
                       title: "Produced In",
                       children: [
                         Wrap(
                           direction: Axis.horizontal,
-                          children: [...generateProductionCountries()],
+                          children: [..._generateProductionCountries()],
                           alignment: WrapAlignment.spaceEvenly,
                           spacing: 12,
                         ),
                       ],
                     ),
-                  if (m!.productionCompanies.isNotEmpty)
+                  if (_m!.productionCompanies.isNotEmpty)
                     MoviePart(
                       title: "Produced By",
                       children: [
@@ -214,20 +211,20 @@ class _MovieDetailsState extends State<MovieDetails> {
                           height: 300,
                           child: Carousel(
                             vFraction: 0.85,
-                            itemCount: m!.productionCompanies.length,
+                            itemCount: _m!.productionCompanies.length,
                             buildItem:
                                 (BuildContext ctx, int idx, bool active) {
                               return ProductionCard(
-                                  company: m!.productionCompanies[idx],
+                                  company: _m!.productionCompanies[idx],
                                   active: active);
                             },
                           ),
                         ),
                       ],
                     ),
-                  if (rates!.isNotEmpty)
+                  if (_rates!.isNotEmpty)
                     MoviePart(title: "Reviews", children: [
-                      ...rates!.map((e) => Review(review: e)).toList()
+                      ..._rates!.map((e) => Review(review: e)).toList()
                     ]),
                 ],
               ),
@@ -242,10 +239,10 @@ class _MovieDetailsState extends State<MovieDetails> {
                     context: context,
                     builder: (BuildContext context) {
                       return MovieRating(
-                          m: m!,
+                          m: _m!,
                           u: user,
                           onDone: () {
-                            getRates(m!.id);
+                            _getRates(_m!.id);
                           });
                     });
               },

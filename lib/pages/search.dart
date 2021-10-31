@@ -14,6 +14,10 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  List<Movie> _searchResults = [];
+  bool _loading = false;
+  final TextEditingController _searchController = TextEditingController();
+
   Future<List<Movie>> _searchMovies({required String query}) {
     try {
       return instance.searchMovie(query: query);
@@ -46,10 +50,6 @@ class _SearchState extends State<Search> {
       }
     }
   }
-
-  List<Movie> _searchResults = [];
-  bool _loading = false;
-  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {

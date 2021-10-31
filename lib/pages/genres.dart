@@ -14,37 +14,36 @@ class GenresPage extends StatefulWidget {
 }
 
 class _GenresPageState extends State<GenresPage> {
-  bool firstTime = true;
-  bool loading = true;
-  int moviePage = 1;
-  List<Movie> movies = [];
-  late Genre genre;
+  bool _firstTime = true;
+  bool _loading = true;
+  final List<Movie> _movies = [];
+  late Genre _genre;
 
-  getMovies() async {
-    List<Movie> tmp = await instance.getMoviesWithGenre(id: genre.id);
+  _getMovies() async {
+    List<Movie> tmp = await instance.getMoviesWithGenre(id: _genre.id);
     setState(() {
-      movies.addAll(tmp);
-      loading = false;
+      _movies.addAll(tmp);
+      _loading = false;
     });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (firstTime) {
+    if (_firstTime) {
       final GenreDiscoveryArguments args =
           ModalRoute.of(context)!.settings.arguments as GenreDiscoveryArguments;
       setState(() {
-        firstTime = false;
-        genre = args.genre;
+        _firstTime = false;
+        _genre = args.genre;
       });
-      getMovies();
+      _getMovies();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
+    if (_loading) {
       return Scaffold(
         body: SafeArea(
             child: Column(
@@ -52,7 +51,7 @@ class _GenresPageState extends State<GenresPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Center(child: CircularProgressIndicator.adaptive()),
-            Text("Looking for movies in ${genre.name}")
+            Text("Looking for movies in ${_genre.name}")
           ],
         )),
       );
@@ -65,7 +64,7 @@ class _GenresPageState extends State<GenresPage> {
           Padding(
             padding: const EdgeInsets.only(top: 15.0),
             child: Text(
-              "Discover Movies in ${genre.name}",
+              "Discover Movies in ${_genre.name}",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
           ),
@@ -73,10 +72,10 @@ class _GenresPageState extends State<GenresPage> {
             height: MediaQuery.of(context).size.height * 0.80,
             child: Carousel(
                 buildItem: (context, int idx, bool active) {
-                  return MovieCard(movie: movies[idx], active: active);
+                  return MovieCard(movie: _movies[idx], active: active);
                 },
                 vFraction: 0.85,
-                itemCount: movies.length),
+                itemCount: _movies.length),
           ),
         ],
       )),
