@@ -54,7 +54,7 @@ class TMDB {
   Future<Movie> getMovie({required int id}) async {
     try {
       Response response = await dio.get("/movie/$id", queryParameters: {
-        "append_to_response": "credits,images,reviews,recommendations,videos",
+        "append_to_response": "credits,images,reviews,recommendations",
         "include_image_language": "en,null"
       });
       if (response.statusCode == 200) {

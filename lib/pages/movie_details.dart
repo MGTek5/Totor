@@ -10,19 +10,16 @@ import 'package:totor/components/carousel.dart';
 import 'package:totor/components/cast_card.dart';
 import 'package:totor/components/movie_image_card.dart';
 import 'package:totor/components/movie_part.dart';
-import 'package:totor/components/movie_video_player.dart';
 import 'package:totor/components/production_card.dart';
 import 'package:totor/components/movie_rating.dart';
 import 'package:totor/components/review.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/models/user.dart';
-import 'package:totor/models/video.dart';
 import 'package:totor/utils/custom_colors.dart';
 import 'package:totor/utils/totor_api.dart' as totor_api;
-
-import '../components/movie_details_backdrop.dart';
-import '../models/rate.dart';
-import '../utils/tmdb.dart';
+import 'package:totor/components/movie_details_backdrop.dart';
+import 'package:totor/models/rate.dart';
+import 'package:totor/utils/tmdb.dart';
 
 class MovieDetails extends StatefulWidget {
   const MovieDetails({Key? key}) : super(key: key);
@@ -166,16 +163,6 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ...generateGenrePills(),
                     ],
                   ),
-                  if (m!.videos.isNotEmpty)
-                    MoviePart(
-                      bottomPadding: 10,
-                      title: "Trailer",
-                      children: [
-                        MovieVideoPlayer(
-                            v: m!.videos.firstWhere((element) =>
-                                element.type == VideoType.trailer)),
-                      ],
-                    ),
                   if (m!.cast.isNotEmpty)
                     MoviePart(children: [
                       SizedBox(
