@@ -16,6 +16,19 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  void searchMovies({required String query}) async {
+    instance.searchMovie(query: searchController.text).then((value) {
+      setState(() {
+        _searchResults = value;
+        loading = false;
+      });
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Ooops: $error"),
+      ));
+    });
+  }
+
   void handleSearchChange() {
     if (searchController.text.isEmpty) {
       setState(() {
@@ -27,16 +40,7 @@ class _SearchState extends State<Search> {
       setState(() {
         loading = true;
       });
-      instance.searchMovie(query: searchController.text).then((value) {
-        setState(() {
-          _searchResults = value;
-          loading = false;
-        });
-      }).catchError((error) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Ooops: $error"),
-        ));
-      });
+      searchMovies(query: searchController.text);
     }
   }
 
@@ -102,13 +106,24 @@ class _SearchState extends State<Search> {
             const Text("Nothing to see here, start typing to see some results"),
           if (_searchResults.isNotEmpty)
             Expanded(
-              child: Carousel(
-                itemCount: _searchResults.length,
-                vFraction: 0.85,
-                buildItem: (context, int currentIdx, bool active) {
-                  return _buildMoviePage(_searchResults[currentIdx], active);
-                },
-              ),
+              child: isDesktop()
+                  ? GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 20,
+                              crossAxisCount: 5),
+                      itemCount: _searchResults.length,
+                      itemBuilder: (ctx, idx) =>
+                          _buildMoviePage(_searchResults[idx], false))
+                  : Carousel(
+                      itemCount: _searchResults.length,
+                      vFraction: 0.85,
+                      buildItem: (context, int currentIdx, bool active) {
+                        return _buildMoviePage(
+                            _searchResults[currentIdx], active);
+                      },
+                    ),
             )
         ],
       )),
