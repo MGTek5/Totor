@@ -46,12 +46,12 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _encodedImage = base64Encode(bytes);
       });
-    } on PlatformException catch (e) {
+    } on PlatformException {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
                 title: const Text("Could not open camera"),
-                content: Text(
+                content: const Text(
                     "If you denied permission before, open the app's settings in order to authorize using the camera"),
                 actions: [
                   TextButton(
@@ -65,6 +65,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       child: const Text("ok"))
                 ],
+              ));
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Something went wrong"),
+                content: Text(e.toString()),
               ));
     }
   }
