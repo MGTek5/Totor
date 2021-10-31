@@ -88,17 +88,12 @@ class TMDB {
     }
   }
 
-  Future<Person> getPerson({required int id}) async {
+  Future<Cast> getPerson({required int id}) async {
     try {
       Response response = await dio.get("/person/$id",
           queryParameters: {"append_to_response": "movie_credits"});
       if (response.statusCode == 200) {
-        return Person.fromJson(
-            data: response.data,
-            type: response.data["known_for_department"] == "Acting"
-                ? PersonType.cast
-                : PersonType.crew,
-            details: true);
+        return Cast.fromJson(data: response.data, details: true);
       } else {
         return Future.error("Request for person $id failed");
       }

@@ -15,14 +15,23 @@ class CastDetails extends StatefulWidget {
 
 class _CastDetailsState extends State<CastDetails> {
   bool firstTime = true;
-  late Person person;
+  late Cast person;
 
   getDetails(int id) async {
-    Person tmp = await instance.getPerson(id: id);
-    setState(() {
-      firstTime = false;
-      person = tmp;
-    });
+    try {
+      Cast tmp = await instance.getPerson(id: id);
+      setState(() {
+        firstTime = false;
+        person = tmp;
+      });
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Something went wrong"),
+                content: Text("$e"),
+              ));
+    }
   }
 
   @override
