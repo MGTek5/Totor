@@ -20,6 +20,43 @@ class _LoginPageState extends State<LoginPage> {
   final _email = TextEditingController();
   bool _loading = false;
 
+  void _login() async {
+    _formKey.currentState!.save();
+    if (_formKey.currentState!.validate()) {
+      try {
+        setState(() {
+          _loading = true;
+        });
+        dynamic res = await instance.login(
+          _email.text,
+          _password.text,
+        );
+        User user = Provider.of<User>(context, listen: false);
+        user.signIn(
+            res["id"], res["email"], res['username'], res["profilePic"]);
+        GetStorage().write("loggedIn", true);
+        GetStorage().write("user", user.toJson());
+        setState(() {
+          _loading = false;
+        });
+        Fluttertoast.showToast(msg: "Welcome back, ${user.username}");
+        Navigator.pushNamed(context, '/');
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (ctx) {
+              return AlertDialog(
+                title: const Text("Could not sign in"),
+                content: Text(e.toString()),
+              );
+            });
+        setState(() {
+          _loading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
@@ -60,44 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: true,
                           validator: (String? value) {},
                         ),
-                        Button("Login", () async {
-                          _formKey.currentState!.save();
-                          if (_formKey.currentState!.validate()) {
-                            try {
-                              setState(() {
-                                _loading = true;
-                              });
-                              dynamic res = await instance.login(
-                                _email.text,
-                                _password.text,
-                              );
-                              User user =
-                                  Provider.of<User>(context, listen: false);
-                              user.signIn(res["id"], res["email"],
-                                  res['username'], res["profilePic"]);
-                              GetStorage().write("loggedIn", true);
-                              GetStorage().write("user", user.toJson());
-                              setState(() {
-                                _loading = false;
-                              });
-                              Fluttertoast.showToast(
-                                  msg: "Welcome back, ${user.username}");
-                              Navigator.pushNamed(context, '/');
-                            } catch (e) {
-                              showDialog(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return AlertDialog(
-                                      title: const Text("Could not sign in"),
-                                      content: Text(e.toString()),
-                                    );
-                                  });
-                              setState(() {
-                                _loading = false;
-                              });
-                            }
-                          }
-                        }),
+                        Button("Login", _login),
                       ],
                     ),
                   ),

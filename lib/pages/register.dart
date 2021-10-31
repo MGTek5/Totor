@@ -30,7 +30,56 @@ class _RegisterPageState extends State<RegisterPage> {
   final _email = TextEditingController();
   bool _loading = false;
 
-  Future pickImage() async {
+  void _register() async {
+    if (_encodedImage.isEmpty) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return const AlertDialog(
+              title: Text("Missing Picture"),
+              content: Text("Please take a picture to use for your profile"),
+            );
+          });
+      return;
+    }
+    _formKey.currentState!.save();
+    if (_formKey.currentState!.validate()) {
+      try {
+        setState(() {
+          _loading = true;
+        });
+        String imageUrl = await instance.uploadImage(_encodedImage);
+        dynamic res = await instance.register(
+            _email.text, _password.text, _username.text, imageUrl);
+        User user = Provider.of<User>(context, listen: false);
+        user.signIn(
+            res["id"], res["email"], res['username'], res["profilePic"]);
+        GetStorage().write("loggedIn", true);
+        GetStorage().write("user", user.toJson());
+        setState(() {
+          _loading = false;
+        });
+        Fluttertoast.showToast(msg: "Welcome, ${user.username}");
+        Navigator.pushNamed(context, "/");
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: const Text("Could not register"),
+                  content: Text(e.toString()),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("ok"))
+                  ],
+                ));
+      }
+    }
+  }
+
+  void _pickImage() async {
     try {
       final ImagePicker _picker = ImagePicker();
       final image = await _picker.pickImage(
@@ -151,60 +200,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: "Confirm Password"),
                         Button(
                           "Choose picture",
-                          () => pickImage(),
+                          () => _pickImage(),
                         ),
-                        Button("Submit", () async {
-                          if (_encodedImage.isEmpty) {
-                            showDialog(
-                                context: context,
-                                builder: (ctx) {
-                                  return const AlertDialog(
-                                    title: Text("Missing Picture"),
-                                    content: Text(
-                                        "Please take a picture to use for your profile"),
-                                  );
-                                });
-                            return;
-                          }
-                          _formKey.currentState!.save();
-                          if (_formKey.currentState!.validate()) {
-                            try {
-                              setState(() {
-                                _loading = true;
-                              });
-                              String imageUrl =
-                                  await instance.uploadImage(_encodedImage);
-                              dynamic res = await instance.register(_email.text,
-                                  _password.text, _username.text, imageUrl);
-                              User user =
-                                  Provider.of<User>(context, listen: false);
-                              user.signIn(res["id"], res["email"],
-                                  res['username'], res["profilePic"]);
-                              GetStorage().write("loggedIn", true);
-                              GetStorage().write("user", user.toJson());
-                              setState(() {
-                                _loading = false;
-                              });
-                              Fluttertoast.showToast(
-                                  msg: "Welcome, ${user.username}");
-                              Navigator.pushNamed(context, "/");
-                            } catch (e) {
-                              showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                        title: const Text("Could not register"),
-                                        content: Text(e.toString()),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text("ok"))
-                                        ],
-                                      ));
-                            }
-                          }
-                        })
+                        Button("Submit", _register)
                       ],
                     )),
                 TextButton(
