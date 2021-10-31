@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:app_settings/app_settings.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -48,9 +50,15 @@ class _RegisterPageState extends State<RegisterPage> {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-                title: const Text("Could not get selected image"),
-                content: Text(e.toString()),
+                title: const Text("Could not open camera"),
+                content: Text(
+                    "If you denied permission before, open the app's settings in order to authorize using the camera"),
                 actions: [
+                  TextButton(
+                      onPressed: () async {
+                        await AppSettings.openAppSettings();
+                      },
+                      child: const Text("Open App Settings")),
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
