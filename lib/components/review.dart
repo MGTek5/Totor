@@ -4,9 +4,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:totor/models/rate.dart';
 
 class Review extends StatelessWidget {
-  const Review({Key? key, required this.review}) : super(key: key);
+  const Review({Key? key, required Rate review})
+      : _review = review,
+        super(key: key);
 
-  final Rate review;
+  final Rate _review;
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +30,19 @@ class Review extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             foregroundImage:
-                                NetworkImage(review.user['profilePic']),
+                                NetworkImage(_review.user['profilePic']),
                             radius: 25,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(review.user["username"]),
+                            child: Text(_review.user["username"]),
                           ),
                         ],
                       ),
                       Row(
                         children: [
                           RatingBarIndicator(
-                            rating: review.rate,
+                            rating: _review.rate,
                             itemCount: 7,
                             itemSize: 25,
                             itemBuilder: (context, _) => const Icon(
@@ -55,7 +57,7 @@ class Review extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  review.comment,
+                  _review.comment,
                   style: const TextStyle(fontSize: 15),
                   textAlign: TextAlign.left,
                 ),

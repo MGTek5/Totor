@@ -246,7 +246,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                           });
                     });
               },
-              child: Icon(Icons.star, color: totorGrey),
+              child: Icon(Icons.star, color: totorGray),
               backgroundColor: totorYellow)
           : null,
     ));

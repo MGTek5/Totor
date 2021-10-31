@@ -17,7 +17,7 @@ class Carousel extends StatefulWidget {
 }
 
 class _CarouselState extends State<Carousel> {
-  int currentPage = 0;
+  int _currentPage = 0;
   late PageController _controller;
 
   @override
@@ -26,9 +26,9 @@ class _CarouselState extends State<Carousel> {
     _controller = PageController(viewportFraction: widget.vFraction);
     _controller.addListener(() {
       int next = _controller.page!.round();
-      if (currentPage != next) {
+      if (_currentPage != next) {
         setState(() {
-          currentPage = next;
+          _currentPage = next;
         });
       }
     });
@@ -39,7 +39,7 @@ class _CarouselState extends State<Carousel> {
     return PageView.builder(
       itemCount: widget.itemCount,
       itemBuilder: (BuildContext ctx, int idx) {
-        bool active = idx == currentPage;
+        bool active = idx == _currentPage;
         return widget.buildItem(ctx, idx, active);
       },
       controller: _controller,

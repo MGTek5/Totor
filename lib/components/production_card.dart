@@ -3,10 +3,12 @@ import 'package:totor/utils/arguments.dart';
 import 'package:totor/models/production_company.dart';
 
 class ProductionCard extends StatelessWidget {
-  const ProductionCard({Key? key, required this.company, required this.active})
-      : super(key: key);
+  const ProductionCard(
+      {Key? key, required ProductionCompany company, required this.active})
+      : _company = company,
+        super(key: key);
 
-  final ProductionCompany company;
+  final ProductionCompany _company;
   final bool active;
 
   @override
@@ -19,7 +21,7 @@ class ProductionCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, "/company",
-            arguments: CompanyDetailArguments(company.id));
+            arguments: CompanyDetailArguments(_company.id));
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
@@ -29,7 +31,7 @@ class ProductionCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             image: DecorationImage(
               fit: BoxFit.scaleDown,
-              image: NetworkImage(company.getLogo()),
+              image: NetworkImage(_company.getLogo()),
             ),
             boxShadow: [
               BoxShadow(
@@ -48,7 +50,7 @@ class ProductionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  company.name,
+                  _company.name,
                   style: titleStile,
                   textAlign: TextAlign.center,
                 )
