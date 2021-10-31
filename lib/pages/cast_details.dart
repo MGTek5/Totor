@@ -42,7 +42,7 @@ class _CastDetailsState extends State<CastDetails> {
       return const Scaffold(
         body: SafeArea(
             child: Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator.adaptive(),
         )),
       );
     }

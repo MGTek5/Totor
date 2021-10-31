@@ -119,7 +119,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              CircularProgressIndicator(),
+              CircularProgressIndicator.adaptive(),
               Text("Fetching Movie info, please wait...")
             ],
           ),

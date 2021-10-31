@@ -37,7 +37,7 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
   @override
   Widget build(BuildContext context) {
     if (_data.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator.adaptive());
     }
     return Scaffold(
         bottomNavigationBar: SalomonBottomBar(

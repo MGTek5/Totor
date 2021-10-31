@@ -90,7 +90,7 @@ class _SearchState extends State<Search> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           buildSearchInput(),
-          if (loading) ...[const CircularProgressIndicator()],
+          if (loading) ...[const CircularProgressIndicator.adaptive()],
           if (_searchResults.isEmpty)
             const Text("Nothing to see here, start typing to see some results"),
           if (_searchResults.isNotEmpty)
