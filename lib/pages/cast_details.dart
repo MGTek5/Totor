@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:totor/components/carousel.dart';
+import 'package:totor/components/movie_card.dart';
 import 'package:totor/utils/arguments.dart';
-import 'package:totor/components/cast_movie_carousel.dart';
 import 'package:totor/models/person.dart';
 import 'package:totor/utils/tmdb.dart';
 
@@ -79,7 +80,16 @@ class _CastDetailsState extends State<CastDetails> {
                       ),
                       SizedBox(
                           height: 500,
-                          child: CastMovieCarousel(movies: person.movieCredits))
+                          child: Carousel(
+                              buildItem: (context, int idx, bool active) {
+                                return MovieCard(
+                                    activeTop: 50,
+                                    inactiveTop: 125,
+                                    movie: person.movieCredits[idx],
+                                    active: active);
+                              },
+                              vFraction: 0.85,
+                              itemCount: person.movieCredits.length))
                     ],
                   ),
                 )

@@ -8,7 +8,7 @@ import 'package:totor/models/genre.dart';
 import 'package:totor/utils/arguments.dart';
 import 'package:totor/components/carousel.dart';
 import 'package:totor/components/cast_card.dart';
-import 'package:totor/components/movie_image_carousel.dart';
+import 'package:totor/components/movie_image_card.dart';
 import 'package:totor/components/movie_part.dart';
 import 'package:totor/components/movie_video_player.dart';
 import 'package:totor/components/production_card.dart';

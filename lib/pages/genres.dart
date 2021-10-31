@@ -73,7 +73,7 @@ class _GenresPageState extends State<GenresPage> {
             height: MediaQuery.of(context).size.height * 0.80,
             child: Carousel(
                 buildItem: (context, int idx, bool active) {
-                  return MovieCard(m: movies[idx], active: active);
+                  return MovieCard(movie: movies[idx], active: active);
                 },
                 vFraction: 0.85,
                 itemCount: movies.length),

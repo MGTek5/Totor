@@ -58,7 +58,7 @@ class _SearchState extends State<Search> {
   }
 
   Widget _buildMoviePage(Movie m, bool active) {
-    return MovieCard(m: m, active: active);
+    return MovieCard(movie: m, active: active);
   }
 
   Widget buildSearchInput() {
