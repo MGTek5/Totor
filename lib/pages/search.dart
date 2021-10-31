@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:totor/components/bottom_bar.dart';
 import 'package:totor/components/carousel.dart';
 import 'package:totor/components/movie_card.dart';
 import 'package:totor/models/movie.dart';
-
-import '../utils/tmdb.dart';
-import '../utils/nav_list.dart';
+import 'package:totor/utils/tmdb.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -78,13 +76,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
-      bottomNavigationBar: SalomonBottomBar(
-        items: getNavList(),
-        onTap: (index) {
-          navigateTo(context: context, index: index);
-        },
-        currentIndex: getRouteIndex(context: context),
-      ),
+      bottomNavigationBar: const BottomBar(),
       body: SafeArea(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
