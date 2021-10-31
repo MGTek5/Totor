@@ -19,7 +19,7 @@ class TMDB {
       if (response.statusCode == 200) {
         dynamic data = response.data;
         List<Movie> res = [];
-        for (var item in data["results"]) {
+        for (Map<String, dynamic> item in data["results"]) {
           res.add(Movie.fromJson(item));
         }
         return res;
@@ -39,7 +39,7 @@ class TMDB {
 
       if (response.statusCode == 200) {
         dynamic data = response.data;
-        for (var item in data["results"]) {
+        for (Map<String, dynamic> item in data["results"]) {
           res.add(Movie.fromJson(item));
         }
         return res;
@@ -76,7 +76,7 @@ class TMDB {
 
       if (response.statusCode == 200) {
         dynamic data = response.data;
-        for (var item in data["results"]) {
+        for (Map<String, dynamic> item in data["results"]) {
           res.add(Movie.fromJson(item));
         }
         return res;

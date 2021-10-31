@@ -37,7 +37,7 @@ class Person {
 
     if (details) {
       c.biography = data["biography"];
-      for (var m in data["movie_credits"]["cast"]) {
+      for (Map<String, dynamic> m in data["movie_credits"]["cast"]) {
         c.movieCredits.add(Movie.fromJson(m));
       }
     }

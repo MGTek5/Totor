@@ -17,7 +17,7 @@ class _CastDetailsState extends State<CastDetails> {
   late Person person;
 
   getDetails(int id) async {
-    var tmp = await instance.getPerson(id: id);
+    Person tmp = await instance.getPerson(id: id);
     setState(() {
       firstTime = false;
       person = tmp;

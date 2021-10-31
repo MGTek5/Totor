@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:totor/models/genre.dart';
 import 'package:totor/utils/arguments.dart';
 import 'package:totor/components/carousel.dart';
 import 'package:totor/components/cast_card.dart';
@@ -83,7 +84,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   List<Widget> generateGenrePills() {
     List<Widget> tmp = [];
 
-    for (var genre in m!.genres) {
+    for (Genre genre in m!.genres) {
       tmp.add(Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: InkWell(

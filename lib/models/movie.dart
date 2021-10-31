@@ -47,7 +47,7 @@ class Movie {
     return ("https://via.placeholder.com/500x700");
   }
 
-  factory Movie.fromJson(Map<dynamic, dynamic> data, {bool details = false}) {
+  factory Movie.fromJson(Map<String, dynamic> data, {bool details = false}) {
     Movie m = Movie(
         id: data["id"],
         title: data["title"],
@@ -56,32 +56,32 @@ class Movie {
         backdropPath: data["backdrop_path"]);
     if (details) {
       m.tagline = data["tagline"];
-      for (var item in data["genres"]) {
+      for (Map<String, dynamic> item in data["genres"]) {
         m.genres.add(Genre.fromJson(item));
       }
       if (data["images"]["posters"].isNotEmpty) {
-        for (var item in data["images"]["posters"]) {
+        for (Map<String, dynamic> item in data["images"]["posters"]) {
           m.posters.add(Image.fromJson(item));
         }
       }
       if (data["credits"]["cast"].isNotEmpty) {
-        for (var item in data["credits"]["cast"]) {
+        for (Map<String, dynamic> item in data["credits"]["cast"]) {
           m.cast
               .add(Person.fromJson(data: item, type: PersonType.cast) as Cast);
         }
       }
       if (data["production_countries"].isNotEmpty) {
-        for (var item in data["production_countries"]) {
+        for (Map<String, dynamic> item in data["production_countries"]) {
           m.productionCountries.add(ProductionCountry.fromJson(item));
         }
       }
       if (data["production_companies"].isNotEmpty) {
-        for (var item in data["production_companies"]) {
+        for (Map<String, dynamic> item in data["production_companies"]) {
           m.productionCompanies.add(ProductionCompany.fromJson(item));
         }
       }
       if (data["videos"]["results"].isNotEmpty) {
-        for (var item in data["videos"]["results"]) {
+        for (Map<String, dynamic> item in data["videos"]["results"]) {
           if (item["site"] != "YouTube") {
             continue;
           }
