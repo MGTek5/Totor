@@ -4,6 +4,8 @@ import 'package:totor/components/bottom_bar.dart';
 import 'package:totor/components/carousel.dart';
 import 'package:totor/components/movie_card.dart';
 import 'package:totor/models/movie.dart';
+import 'package:totor/utils/misc.dart';
+import 'package:totor/utils/nav_list.dart';
 import 'package:totor/utils/tmdb.dart';
 
 class Search extends StatefulWidget {
@@ -76,7 +78,20 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
-      bottomNavigationBar: const BottomBar(),
+      appBar: isDesktop()
+          ? AppBar(
+              title: const Text("Totor"),
+            )
+          : null,
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(child: Text("Totor")),
+            ...getDrawerNav(context)
+          ],
+        ),
+      ),
+      bottomNavigationBar: !isDesktop() ? const BottomBar() : null,
       body: SafeArea(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

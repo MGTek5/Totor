@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,7 +16,9 @@ import 'pages/intro_screens.dart';
 import 'pages/movie_discovery.dart';
 
 void main() async {
-  await GetStorage.init();
+  if (!Platform.isLinux) {
+    await GetStorage.init();
+  }
   runApp(const MyApp());
 }
 
@@ -30,6 +34,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<User>(
             create: (_) {
               User u = User();
+              if (Platform.isLinux) {
+                return u;
+              }
               if (GetStorage().read<bool>("loggedIn") ?? false == true) {
                 dynamic data = GetStorage().read("user");
                 u.signIn(data["id"], data["email"], data["username"],
@@ -49,9 +56,14 @@ class MyApp extends StatelessWidget {
             ),
             initialRoute: "/",
             routes: {
-              "/": (context) => GetStorage().read<bool>("introSeen") ?? false
-                  ? const MovieDiscovery()
-                  : const IntroScreens(),
+              "/": (context) {
+                if (Platform.isLinux) {
+                  return const MovieDiscovery();
+                }
+                return GetStorage().read<bool>("introSeen") ?? false
+                    ? const MovieDiscovery()
+                    : const IntroScreens();
+              },
               "/search": (context) => const Search(),
               "/movie/details": (context) => const MovieDetails(),
               "/movie/genre": (context) => const GenresPage(),

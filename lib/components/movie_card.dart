@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:totor/utils/arguments.dart';
 import 'package:totor/models/movie.dart';
@@ -43,23 +46,41 @@ class MovieCard extends StatelessWidget {
         Navigator.pushNamed(context, "/movie/details",
             arguments: MovieDetailsArguments(_movie.id));
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOutQuint,
-        margin: EdgeInsets.only(top: top, bottom: 50, right: 30),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(_movie.getPoster()),
+      child: !Platform.isLinux
+          ? AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOutQuint,
+              margin: EdgeInsets.only(top: top, bottom: 50, right: 30),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(_movie.getPoster()),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: blur,
+                        offset: Offset(offset, offset))
+                  ]),
+            )
+          : MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(_movie.getPoster()),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black54,
+                          blurRadius: blur,
+                          offset: Offset(offset, offset))
+                    ]),
+              ),
             ),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black54,
-                  blurRadius: blur,
-                  offset: Offset(offset, offset))
-            ]),
-      ),
     );
   }
 }

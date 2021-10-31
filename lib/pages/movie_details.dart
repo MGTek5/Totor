@@ -16,6 +16,7 @@ import 'package:totor/components/review.dart';
 import 'package:totor/models/movie.dart';
 import 'package:totor/models/user.dart';
 import 'package:totor/utils/custom_colors.dart';
+import 'package:totor/utils/misc.dart';
 import 'package:totor/utils/totor_api.dart' as totor_api;
 import 'package:totor/components/movie_details_backdrop.dart';
 import 'package:totor/models/rate.dart';
@@ -127,9 +128,14 @@ class _MovieDetailsState extends State<MovieDetails> {
       );
     }
     return (Scaffold(
+      appBar: isDesktop()
+          ? AppBar(
+              title: const Text("Totor"),
+            )
+          : null,
       body: SafeArea(
         child: MovieDetailsBackdrop(
-          backdrop: m!.getBackdrop(size: "w780"),
+          backdrop: m!.getBackdrop(size: isDesktop() ? "original" : "w780"),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(

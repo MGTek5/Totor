@@ -32,6 +32,23 @@ List<RouteData> data = [
       routeName: "/profile"),
 ];
 
+List<ListTile> getDrawerNav(BuildContext context) {
+  List<ListTile> res = [];
+
+  for (RouteData element in data) {
+    res.add(ListTile(
+      leading: element.icon,
+      title: element.title,
+      selected: getRouteIndex(context: context) == data.indexOf(element),
+      onTap: () {
+        navigateTo(context: context, index: data.indexOf(element));
+      },
+    ));
+  }
+
+  return res;
+}
+
 List<SalomonBottomBarItem> getNavList() {
   List<SalomonBottomBarItem> res = [];
 
