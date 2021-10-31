@@ -1,0 +1,21 @@
+name: totor
+version: '0.1'
+summary: Like hallocine but worse
+description: Like hallocine but worse
+
+confinement: strict
+base: core18
+
+parts:
+  totor:
+    plugin: flutter
+    source: .
+    flutter-target: lib/main.dart
+
+apps:
+  totor:
+    command: totor
+    plugs:
+      - network
+      - camera
+    extensions: [flutter-dev]
