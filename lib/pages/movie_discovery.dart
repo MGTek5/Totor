@@ -52,47 +52,42 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
       );
     }
     return Scaffold(
-      bottomNavigationBar: !isDesktop() ? const BottomBar() : null,
-      appBar: isDesktop()
-          ? AppBar(
-              title: const Text("Totor"),
-            )
-          : null,
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            const DrawerHeader(child: Text("Totor")),
-            ...getDrawerNav(context)
-          ],
+        bottomNavigationBar: !isDesktop() ? const BottomBar() : null,
+        appBar: isDesktop()
+            ? AppBar(
+                title: const Text("Totor"),
+              )
+            : null,
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              const DrawerHeader(child: Text("Totor")),
+              ...getDrawerNav(context)
+            ],
+          ),
         ),
-      ),
-      body: LayoutBuilder(
-          builder: (BuildContext ctx, BoxConstraints constraints) {
-        if (constraints.maxWidth < 700) {
-          return (Carousel(
-              vFraction: 0.90,
-              itemCount: _data.length,
-              buildItem: (BuildContext ctx, int idx, bool active) {
-                if (idx == _data.length - 10) {
-                  getMovies(page: lastPage + 1);
-                }
-                return _buildMoviePage(_data[idx], active);
-              }));
-        } else {
-          return Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
-            child: (GridView.builder(
+        body: isMobile()
+            ? Carousel(
+                vFraction: 0.90,
                 itemCount: _data.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20,
-                    crossAxisCount: 5),
-                itemBuilder: (ctx, int idx) {
-                  return _buildMoviePage(_data[idx], false);
-                })),
-          );
-        }
-      }),
-    );
+                buildItem: (BuildContext ctx, int idx, bool active) {
+                  if (idx == _data.length - 10) {
+                    getMovies(page: lastPage + 1);
+                  }
+                  return _buildMoviePage(_data[idx], active);
+                })
+            : Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                child: (GridView.builder(
+                    itemCount: _data.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisSpacing: 20,
+                            crossAxisSpacing: 20,
+                            crossAxisCount: 5),
+                    itemBuilder: (ctx, int idx) {
+                      return _buildMoviePage(_data[idx], false);
+                    })),
+              ));
   }
 }
