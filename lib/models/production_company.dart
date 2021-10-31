@@ -1,18 +1,26 @@
 class ProductionCompany {
-  String name;
-  String? logoPath;
-  int id;
-  String? originCountry;
+  String _name;
+  String? _logoPath;
+  int _id;
+  String? _originCountry;
 
   ProductionCompany(
-      {required this.name,
-      required this.logoPath,
-      required this.id,
-      required this.originCountry});
+      {required String name,
+      required String? logoPath,
+      required int id,
+      required String? originCountry})
+      : _id = id,
+        _logoPath = logoPath,
+        _name = name,
+        _originCountry = originCountry;
+
+  get id => _id;
+  get name => _name;
+  get originCountry => _originCountry;
 
   String getLogo({String size = "w500"}) {
-    if (logoPath != null) {
-      return "https://image.tmdb.org/t/p/$size/$logoPath";
+    if (_logoPath != null) {
+      return "https://image.tmdb.org/t/p/$size/$_logoPath";
     }
     return ("https://via.placeholder.com/500x700");
   }

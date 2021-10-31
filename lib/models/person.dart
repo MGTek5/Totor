@@ -1,32 +1,46 @@
 import 'package:totor/models/movie.dart';
 
-enum PersonType { cast, crew }
+class Cast {
+  int _id;
+  String _name;
+  String? _originalName;
+  String _department;
+  String? _profilePath;
+  String? _biography;
+  final List<Movie> _movieCredits = [];
+  String? _character;
 
-class Person {
-  int id;
-  String name;
-  String? originalName;
-  String department;
-  String? profilePath;
-  String? biography;
-  List<Movie> movieCredits = [];
+  get id => _id;
+  get name => _name;
+  get originaName => _originalName;
+  get department => _department;
+  get profilePath => _profilePath;
+  get biography => _biography;
+  get movieCredits => _movieCredits;
+  get character => _character;
+
+  Cast(
+      {required int id,
+      required String name,
+      required String? originalName,
+      required String department,
+      required String? profilePath,
+      required String? character})
+      : _id = id,
+        _name = name,
+        _originalName = originalName,
+        _department = department,
+        _profilePath = profilePath,
+        _character = character;
 
   String getProfilePic({String size = "w500"}) {
-    if (profilePath != null) {
-      return "https://image.tmdb.org/t/p/$size/$profilePath";
+    if (_profilePath != null) {
+      return "https://image.tmdb.org/t/p/$size/$_profilePath";
     }
     return ("https://via.placeholder.com/500x700");
   }
 
-  Person(
-      {required this.id,
-      required this.name,
-      required this.originalName,
-      required this.department,
-      required this.profilePath});
-
-  factory Person.fromJson(
-      {required dynamic data, required PersonType type, bool details = false}) {
+  factory Cast.fromJson({required dynamic data, bool details = false}) {
     Cast c = Cast(
         id: data["id"],
         character: data["character"],
@@ -36,30 +50,12 @@ class Person {
         profilePath: data["profile_path"]);
 
     if (details) {
-      c.biography = data["biography"];
+      c._biography = data["biography"];
       for (Map<String, dynamic> m in data["movie_credits"]["cast"]) {
-        c.movieCredits.add(Movie.fromJson(m));
+        c._movieCredits.add(Movie.fromJson(m));
       }
     }
 
     return c;
   }
-}
-
-class Cast extends Person {
-  String? character;
-
-  Cast(
-      {required id,
-      required name,
-      required originalName,
-      required department,
-      required profilePath,
-      required this.character})
-      : super(
-            id: id,
-            name: name,
-            originalName: originalName,
-            department: department,
-            profilePath: profilePath);
 }

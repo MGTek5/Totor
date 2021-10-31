@@ -23,16 +23,21 @@ Map<int, Color> colorsForGenres = {
 };
 
 class Genre {
-  int id;
-  String name;
+  int _id;
+  String _name;
 
-  Genre({required this.id, required this.name});
+  Genre({required int id, required String name})
+      : _id = id,
+        _name = name;
 
   factory Genre.fromJson(dynamic data) {
     return Genre(id: data["id"], name: data["name"]);
   }
 
+  get id => _id;
+  get name => _name;
+
   Color? getColor() {
-    return colorsForGenres[id];
+    return colorsForGenres[_id];
   }
 }

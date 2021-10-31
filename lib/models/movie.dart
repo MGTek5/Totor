@@ -18,9 +18,6 @@ class Movie {
   String? posterPath;
   String? backdropPath;
   String tagline = "";
-  String? trailerUrl;
-  dynamic reviews;
-  dynamic crew;
   List<Cast> cast = [];
   List<Image> posters = [];
   List<Genre> genres = [];
@@ -64,8 +61,7 @@ class Movie {
       }
       if (data["credits"]["cast"].isNotEmpty) {
         for (Map<String, dynamic> item in data["credits"]["cast"]) {
-          m.cast
-              .add(Person.fromJson(data: item, type: PersonType.cast) as Cast);
+          m.cast.add(Cast.fromJson(data: item));
         }
       }
       if (data["production_countries"].isNotEmpty) {
