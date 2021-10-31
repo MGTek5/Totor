@@ -37,7 +37,18 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
   @override
   Widget build(BuildContext context) {
     if (_data.isEmpty) {
-      return const Center(child: CircularProgressIndicator.adaptive());
+      return Scaffold(
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const [
+              Center(child: CircularProgressIndicator.adaptive()),
+              Text("Loading latest movies, please wait")
+            ],
+          ),
+        ),
+      );
     }
     return Scaffold(
         bottomNavigationBar: SalomonBottomBar(
