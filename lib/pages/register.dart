@@ -203,7 +203,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
                         })
                       ],
-                    ))
+                    )),
+                TextButton(
+                    style: TextButton.styleFrom(
+                        primary: Colors.orange,
+                        textStyle: const TextStyle(fontSize: 12)),
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/login");
+                    },
+                    child: const Text("Sign In"))
               ],
             ),
             if (_loading)
