@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:app_settings/app_settings.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -44,19 +46,32 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _encodedImage = base64Encode(bytes);
       });
-    } on PlatformException catch (e) {
+    } on PlatformException {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-                title: const Text("Could not get selected image"),
-                content: Text(e.toString()),
+                title: const Text("Could not open camera"),
+                content: const Text(
+                    "If you denied permission before, open the app's settings in order to authorize using the camera"),
                 actions: [
+                  TextButton(
+                      onPressed: () async {
+                        await AppSettings.openAppSettings();
+                      },
+                      child: const Text("Open App Settings")),
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                       child: const Text("ok"))
                 ],
+              ));
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Something went wrong"),
+                content: Text(e.toString()),
               ));
     }
   }
@@ -188,7 +203,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
                         })
                       ],
-                    ))
+                    )),
+                TextButton(
+                    style: TextButton.styleFrom(
+                        primary: Colors.orange,
+                        textStyle: const TextStyle(fontSize: 12)),
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/login");
+                    },
+                    child: const Text("Sign In"))
               ],
             ),
             if (_loading)

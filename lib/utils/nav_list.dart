@@ -35,7 +35,7 @@ List<RouteData> data = [
 List<SalomonBottomBarItem> getNavList() {
   List<SalomonBottomBarItem> res = [];
 
-  for (var element in data) {
+  for (RouteData element in data) {
     res.add(SalomonBottomBarItem(
         icon: element.icon,
         title: element.title,

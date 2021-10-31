@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:totor/components/bottom_bar.dart';
 import 'package:totor/components/button.dart';
-import 'package:totor/utils/nav_list.dart';
-
-import '../models/user.dart';
+import 'package:totor/models/user.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -15,13 +13,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     User user = context.watch<User>();
     return Scaffold(
-      bottomNavigationBar: SalomonBottomBar(
-        items: getNavList(),
-        onTap: (index) {
-          navigateTo(context: context, index: index);
-        },
-        currentIndex: getRouteIndex(context: context),
-      ),
+      bottomNavigationBar: const BottomBar(),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

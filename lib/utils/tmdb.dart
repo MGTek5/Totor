@@ -19,7 +19,7 @@ class TMDB {
       if (response.statusCode == 200) {
         dynamic data = response.data;
         List<Movie> res = [];
-        for (var item in data["results"]) {
+        for (Map<String, dynamic> item in data["results"]) {
           res.add(Movie.fromJson(item));
         }
         return res;
@@ -39,7 +39,7 @@ class TMDB {
 
       if (response.statusCode == 200) {
         dynamic data = response.data;
-        for (var item in data["results"]) {
+        for (Map<String, dynamic> item in data["results"]) {
           res.add(Movie.fromJson(item));
         }
         return res;
@@ -54,7 +54,7 @@ class TMDB {
   Future<Movie> getMovie({required int id}) async {
     try {
       Response response = await dio.get("/movie/$id", queryParameters: {
-        "append_to_response": "credits,images,reviews,recommendations,videos",
+        "append_to_response": "credits,images,reviews,recommendations",
         "include_image_language": "en,null"
       });
       if (response.statusCode == 200) {
@@ -76,7 +76,7 @@ class TMDB {
 
       if (response.statusCode == 200) {
         dynamic data = response.data;
-        for (var item in data["results"]) {
+        for (Map<String, dynamic> item in data["results"]) {
           res.add(Movie.fromJson(item));
         }
         return res;
@@ -88,17 +88,12 @@ class TMDB {
     }
   }
 
-  Future<Person> getPerson({required int id}) async {
+  Future<Cast> getPerson({required int id}) async {
     try {
       Response response = await dio.get("/person/$id",
           queryParameters: {"append_to_response": "movie_credits"});
       if (response.statusCode == 200) {
-        return Person.fromJson(
-            data: response.data,
-            type: response.data["known_for_department"] == "Acting"
-                ? PersonType.cast
-                : PersonType.crew,
-            details: true);
+        return Cast.fromJson(data: response.data, details: true);
       } else {
         return Future.error("Request for person $id failed");
       }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:totor/components/bottom_bar.dart';
 import 'package:totor/components/carousel.dart';
 import 'package:totor/components/movie_card.dart';
 import 'package:totor/models/movie.dart';
-import 'package:totor/utils/nav_list.dart';
-import '../utils/tmdb.dart';
+import 'package:totor/utils/tmdb.dart';
 
 class MovieDiscovery extends StatefulWidget {
   const MovieDiscovery({Key? key}) : super(key: key);
@@ -31,22 +30,27 @@ class _MovieDiscoveryState extends State<MovieDiscovery> {
   }
 
   Widget _buildMoviePage(Movie m, bool active) {
-    return MovieCard(m: m, active: active);
+    return MovieCard(movie: m, active: active);
   }
 
   @override
   Widget build(BuildContext context) {
     if (_data.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return Scaffold(
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const [
+              Center(child: CircularProgressIndicator.adaptive()),
+              Text("Loading latest movies, please wait")
+            ],
+          ),
+        ),
+      );
     }
     return Scaffold(
-        bottomNavigationBar: SalomonBottomBar(
-          items: getNavList(),
-          onTap: (index) {
-            navigateTo(context: context, index: index);
-          },
-          currentIndex: getRouteIndex(context: context),
-        ),
+        bottomNavigationBar: const BottomBar(),
         body: Carousel(
             vFraction: 0.90,
             itemCount: _data.length,

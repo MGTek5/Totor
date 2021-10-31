@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
+import 'package:totor/components/carousel.dart';
+import 'package:totor/components/movie_card.dart';
 import 'package:totor/utils/arguments.dart';
-import 'package:totor/components/cast_movie_carousel.dart';
 import 'package:totor/models/person.dart';
 import 'package:totor/utils/tmdb.dart';
 
@@ -14,14 +15,23 @@ class CastDetails extends StatefulWidget {
 
 class _CastDetailsState extends State<CastDetails> {
   bool firstTime = true;
-  late Person person;
+  late Cast person;
 
   getDetails(int id) async {
-    var tmp = await instance.getPerson(id: id);
-    setState(() {
-      firstTime = false;
-      person = tmp;
-    });
+    try {
+      Cast tmp = await instance.getPerson(id: id);
+      setState(() {
+        firstTime = false;
+        person = tmp;
+      });
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Something went wrong"),
+                content: Text("$e"),
+              ));
+    }
   }
 
   @override
@@ -42,7 +52,7 @@ class _CastDetailsState extends State<CastDetails> {
       return const Scaffold(
         body: SafeArea(
             child: Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator.adaptive(),
         )),
       );
     }
@@ -79,7 +89,16 @@ class _CastDetailsState extends State<CastDetails> {
                       ),
                       SizedBox(
                           height: 500,
-                          child: CastMovieCarousel(movies: person.movieCredits))
+                          child: Carousel(
+                              buildItem: (context, int idx, bool active) {
+                                return MovieCard(
+                                    activeTop: 50,
+                                    inactiveTop: 125,
+                                    movie: person.movieCredits[idx],
+                                    active: active);
+                              },
+                              vFraction: 0.85,
+                              itemCount: person.movieCredits.length))
                     ],
                   ),
                 )

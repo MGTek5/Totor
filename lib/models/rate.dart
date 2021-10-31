@@ -1,7 +1,7 @@
 class Rate {
   double rate;
   String comment;
-  dynamic user;
+  Map<String, dynamic> user;
 
   Rate({required this.rate, required this.comment, required this.user});
 

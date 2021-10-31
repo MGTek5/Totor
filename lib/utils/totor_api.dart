@@ -10,7 +10,7 @@ class TotorApi {
     dio.options.baseUrl = "https://totor.nirah.tech";
     dio.options.validateStatus = (status) => status! <= 500;
   }
-  Future<dynamic> login(String email, String password) async {
+  Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       Response res = await dio
           .post("/auth/login", data: {"email": email, "password": password});
@@ -35,7 +35,7 @@ class TotorApi {
     }
   }
 
-  Future<dynamic> register(
+  Future<Map<String, dynamic>> register(
       String email, String password, String username, String profilePic) async {
     try {
       Response res = await dio.post("/auth/register", data: {
@@ -53,7 +53,7 @@ class TotorApi {
     }
   }
 
-  Future<dynamic> createReview(
+  Future<Map<String, dynamic>> createReview(
       String movieId, String userId, double rating, String commentary) async {
     try {
       Response res = await dio.post("/movies", data: {
@@ -78,7 +78,7 @@ class TotorApi {
       if (response.statusCode != 200) {
         throw "Wrong responseponse status got ${response.statusCode} but expected 200";
       }
-      for (var e in response.data) {
+      for (Map<String, dynamic> e in response.data) {
         res.add(Rate.fromJson(e));
       }
       return res;
